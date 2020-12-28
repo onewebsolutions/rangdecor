@@ -1,0 +1,299 @@
+{% extends 'master_back.html' %}
+
+{% load static %}
+
+{% block headblock %}
+
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}">
+
+    <!-- image viewer -->
+    <script src="{% static 'back/assets/js/EZView.js' %}"></script>
+    <script src="{% static 'back/assets/js/draggable.js' %}"></script>
+
+
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'bank/vendors/mdb/mdb.min.css' %}" rel="stylesheet">
+
+    <!-- smart photo -->
+    <link href="{% static 'back/vendors/smart-photo/smartphoto.min.css' %}" rel="stylesheet">
+
+    <!-- bootstrap for tags -->
+    <style>
+        .bootstrap-tagsinput {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            display: block;
+            padding: 4px 6px;
+            color: #555;
+            vertical-align: middle;
+            border-radius: 4px;
+            max-width: 100%;
+            line-height: 22px;
+            cursor: text;
+        }
+        .bootstrap-tagsinput input {
+            border: none;
+            box-shadow: none;
+            outline: none;
+            background-color: transparent;
+            padding: 0 6px;
+            margin: 0;
+            width: auto;
+            max-width: inherit;
+        }
+        .bootstrap-tagsinput .tag {
+            background: gray;
+            border: 1px solid;
+            padding: 0 6px;
+            margin-right: 2px;
+            color: white;
+            border-radius: 4px;
+            }
+    </style>
+
+
+{% endblock %}
+
+{% block page_content %}
+
+    <div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <!-- Informative -->
+                <div class="card" id="looper">
+                    <div class="card-header">
+                        <strong class="card-title">Informative Component</strong>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'informative_section_edit' informative.pk %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            {% csrf_token %}
+
+                            {% if informative != None %}
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="index" class=" form-control-label">Index * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="index" name="index" placeholder="Add Index" class="form-control" value="{{informative.index}}" required>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="page_name" class=" form-control-label">Page Name * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <select name="page_name" id="page_name" class="form-control" required>
+                                        <option value="{{informative.page_name}}" selected>selected : {% if informative.page_name  == ' ' %} None {% else %} {{informative.page_name | capfirst}} {% endif %}</option>
+                                        {% for page in page %}
+                                        <option value="{{page.page_name}}">{{page.page_name | capfirst}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="section_name" class=" form-control-label">Section Name * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="section_name" name="section_name" placeholder="Add Section Name" class="form-control" value="{{informative.section_name}}" required>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="sub_section_name" class=" form-control-label">Sub Section Name : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="sub_section_name" name="sub_section_name" placeholder="Add Section Name" class="form-control" value="{{informative.sub_section_name}}">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="title" class=" form-control-label">Section Title : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="title" name="title" placeholder="Add Title" class="form-control" value="{{informative.title}}">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="intro" class=" form-control-label">Section Introduction : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <textarea name="intro" id="intro" cols="30" rows="5"  class="form-control" placeholder="Add Section Intro">{{ informative.intro }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="detail" class=" form-control-label">Section Details : </label>
+                                </div>
+                                <div class="col col-md-7">
+                                    <textarea name="detail" id="detail" cols="30" rows="5"  class="form-control" placeholder="Add Section Detail">{{ informative.detail }}</textarea>
+                                </div>
+
+                                <script>
+                                    CKEDITOR.replace( 'detail' );
+                                </script>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="main_image" class=" form-control-label">Main Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="main_image" name="main_image" class="form-control-file">
+                                    {% if informative.main_image %}
+                                        <p><b>Selected : </b>{{informative.main_image.url}}</p>
+                                        <a href="{% if informative.main_image %} {{informative.main_image.url}} {% endif %}" class="js-img-viewer-fit" data-caption="Rang Decor data-id="lion">
+                                            <img src="{% if informative.main_image %} {{informative.main_image.url}} {% endif %}" alt="" style="height: 70px;">
+                                        </a>
+                                        {% if informative.main_image %}
+                                            <a href="{% url 'remove_image' informative.main_image 'main_image' informative.pk %}"><button type="button" class="btn btn-danger btn-sm">Remove &nbsp;<i class="fa fa-times"></i></button></a>
+                                        {% endif %}
+                                    {% else %}
+                                        <p><b>Selected : </b>None</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="second_image" class=" form-control-label">Second Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="second_image" name="second_image" class="form-control-file">
+                                    {% if informative.second_image %}
+                                        <p><b>Selected : </b>{{informative.second_image.url}}</p>
+                                        <a href="{% if informative.second_image %} {{informative.second_image.url}} {% endif %}" class="js-img-viewer-fit" data-caption="Rang Decor data-id="lion">
+                                            <img src="{% if informative.second_image %} {{informative.second_image.url}} {% endif %}" alt="" style="height: 70px;">
+                                        </a>
+                                        {% if informative.second_image %}
+                                            <a href="{% url 'remove_image' informative.second_image 'second_image' informative.pk %}"><button type="button" class="btn btn-danger btn-sm">Remove &nbsp;<i class="fa fa-times"></i></button></a>
+                                        {% endif %}
+                                    {% else %}
+                                        <p><b>Selected : </b>None</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="third_image" class=" form-control-label">Third Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="third_image" name="third_image" class="form-control-file">
+                                    {% if informative.third_image %}
+                                        <p><b>Selected : </b>{{informative.third_image.url}}</p>
+                                        <a href="{% if informative.third_image %} {{informative.third_image.url}} {% endif %}" class="js-img-viewer-fit" data-caption="Rang Decor data-id="lion">
+                                            <img src="{% if informative.third_image %} {{informative.third_image.url}} {% endif %}" alt="" style="height: 70px;">
+                                        </a>
+                                        {% if informative.third_image %}
+                                            <a href="{% url 'remove_image' informative.third_image 'third_image' informative.pk %}"><button type="button" class="btn btn-danger btn-sm">Remove &nbsp;<i class="fa fa-times"></i></button></a>
+                                        {% endif %}
+                                    {% else %}
+                                        <p><b>Selected : </b>None</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="bg_image" class=" form-control-label">Background Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="bg_image" name="bg_image" class="form-control-file">
+                                    {% if informative.bg_image %}
+                                        <p><b>Selected : </b>{{informative.bg_image.url}}</p>
+                                        <a href="{% if informative.bg_image %} {{informative.bg_image.url}} {% endif %}" class="js-img-viewer-fit" data-caption="Rang Decor data-id="lion">
+                                            <img src="{% if informative.bg_image %} {{informative.bg_image.url}} {% endif %}" alt="" style="height: 70px;">
+                                        </a>
+                                        {% if informative.bg_image %}
+                                            <a href="{% url 'remove_image' informative.bg_image 'bg_image' informative.pk %}"><button type="button" class="btn btn-danger btn-sm">Remove &nbsp;<i class="fa fa-times"></i></button></a>
+                                        {% endif %}
+                                    {% else %}
+                                        <p><b>Selected : </b>None</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="side" class=" form-control-label">Section Side : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <select name="side" id="side" class="form-control">
+                                        <option value="{% if informative.side == '' %}{% else %}{{informative.side}}{% endif %}" selected>Selected : {% if informative.side == '' %}None{% else %}{{informative.side | capfirst}}{% endif %}</option>
+                                        <option value="">None</option>
+                                        <option value="left">Left</option>
+                                        <option value="right">Right</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br>
+                            <p>All * marked fields implies that it is required and can not be left empty.</p>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-pencil"></i> &nbsp; Update</button>
+                                </div>
+                            </div>
+
+                            {% endif %}
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footerblock %}
+
+<script src="{% static 'back/vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'back/assets/js/init-scripts/data-table/datatables-init.js' %}"></script>
+
+<!-- for tags -->
+<script src="{% static 'back/assets/js/bootstrap-tagsinput.js' %}"></script>
+
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'back/vendors/mdb/mdb.min.js' %}"></script>
+
+
+<!-- smart photo -->
+<script src="{% static 'back/vendors/smart-photo/smartphoto.js' %}"></script>
+
+
+<script>
+	window.addEventListener('load',function(){
+		new SmartPhoto(".js-img-viewer");
+        new SmartPhoto(".js-img-viewer-fit");
+	});
+</script>
+
+{% endblock %}

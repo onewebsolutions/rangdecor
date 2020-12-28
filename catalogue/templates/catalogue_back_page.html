@@ -1,0 +1,289 @@
+{% extends 'master_back.html' %}
+
+{% load static %}
+
+{% block headblock %}
+
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}">
+
+    <!-- image viewer -->
+    <script src="{% static 'back/assets/js/EZView.js' %}"></script>
+    <script src="{% static 'back/assets/js/draggable.js' %}"></script>
+
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'back/vendors/mdb/mdb.min.css' %}" rel="stylesheet">
+
+    <!-- lightgallery -->
+    <!-- <link href="{% static 'css/lightgallery.css' %}" rel="stylesheet"> -->
+
+    <!-- bootstrap for tags -->
+    <style>
+        .bootstrap-tagsinput {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            display: block;
+            padding: 4px 6px;
+            color: #555;
+            vertical-align: middle;
+            border-radius: 4px;
+            max-width: 100%;
+            line-height: 22px;
+            cursor: text;
+        }
+        .bootstrap-tagsinput input {
+            border: none;
+            box-shadow: none;
+            outline: none;
+            background-color: transparent;
+            padding: 0 6px;
+            margin: 0;
+            width: auto;
+            max-width: inherit;
+        }
+        .bootstrap-tagsinput .tag {
+            background: gray;
+            border: 1px solid;
+            padding: 0 6px;
+            margin-right: 2px;
+            color: white;
+            border-radius: 4px;
+            }
+    </style>
+
+    <!-- additional styles -->
+    <style>
+        .ver-align {
+            vertical-align: middle !important;
+        }
+    </style>
+
+{% endblock %}
+
+{% block page_content %}
+
+    <div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <!-- <div class="text-center" style="margin-bottom: 20px;">
+                    <a href="#looper"><button class="btn peach-gradient">Loopers</button></a>
+                    <a href="#informative"><button class="btn aqua-gradient">Informatives</button></a>
+                </div> -->
+
+                <!-- Catalogue Page Component -->
+
+                <div class="card" id="looper">
+                    <div class="card-header">
+                        <strong class="card-title">Page list for Catalogue : <b>{{catalogue.name|capfirst}}</b></strong>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 30px;">
+                                    <strong>Success!</strong> {{message}}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% if catalogue %}
+                    <div class="card-body">
+
+                        <table id="bootstrap-data-table-export" class="dataa-table table table-striped table-bordered">
+
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Index</th>
+                                    <th class="text-center">Page Number [From/To]</th>
+                                    <th class="text-center">Image</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% if catalogue_page %}
+                                {% for catalogue_page in catalogue_page %}
+                                <tr class='lightGallery'>
+
+                                    <td class="text-center ver-align">
+                                        {{catalogue_page.index}}
+                                    </td>
+
+                                    <td class="text-center ver-align">
+                                        {{catalogue_page.page_first}} - {{catalogue_page.page_second}}
+                                    </td>
+
+                                    <!-- Add <span class="lightgallery"><span> around anchor tag that covers image -->
+                                    <td class="text-center" style="padding-top: 5px; padding-bottom: 5px;">
+                                        <a href="{% if catalogue_page.main_image_1 %}{{catalogue_page.main_image_1.url}}{% endif %}" target="_blank">
+                                            <img src="{% if catalogue_page.main_image_1 %}{{catalogue_page.main_image_1.url}}{% endif %}" alt="start page" style="width: 65px;">
+                                        </a>
+
+                                        &
+
+                                        <a href="{% if catalogue_page.main_image_2 %}{{catalogue_page.main_image_2.url}}{% endif %}" target="_blank">
+                                            <img src="{% if catalogue_page.main_image_2 %}{{catalogue_page.main_image_2.url}}{% endif %}" alt="end page" style="width: 65px;">
+                                        </a>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <!-- <a href="{% url 'catalogue_back_page_edit' catalogue.pk catalogue_page.pk %}"><button type="button" class="btn btn-info btn-sm"><i class="fa fa-pencil"></i> Edit</button></a>
+                                        <a href="#"><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#catalogue_page_{{catalogue_page.pk}}">Del<i class="fa fa-times"></i></button></a> -->
+                                        <!-- <a href="#"><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-paperclip"></i> Add Fullsheet</button></a> -->
+                                        <!-- <a href="#" target="_blank"><button type="button" class="btn btn-warning">View  <i class="fa fa-eye"></i></button></a> -->
+                                    
+                                        <!-- Delete Confirm -->
+                                        <!-- <div class="modal fade bottom" id="catalogue_page_{{catalogue_page.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-frame modal-bottom" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="row d-flex justify-content-center align-items-center">
+    
+                                                            <p class="pt-3 pr-2">
+                                                            This action will delete the Catalogue Page <b>"{{catalogue_page.index}}"</b> completely and it is
+                                                            irreparable by nature. Once it is gone it is gone !
+                                                            </p>
+    
+                                                            <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Close</button>
+                                                            <a href="{% url 'catalogue_back_page_delete' catalogue.pk catalogue_page.pk %}"><button type="button" class="btn btn-dark"><b>Delete</b></button></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+
+                        </table>
+
+                        <hr>
+                        <br><br><br>
+
+                        <!-- <form action="{% url 'catalogue_back_page' catalogue.pk %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            {% csrf_token %}
+
+                            <h3>[ Add Page ] </h3> <br><br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="index" class=" form-control-label">Index * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="index" name="index" placeholder="Add Index" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <br>
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="page_first" class=" form-control-label">First Page Number * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="page_first" name="page_first" placeholder="Add First Page Number" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="main_image_1" class=" form-control-label">First Image * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="main_image_1" name="main_image_1" class="form-control-file" required>
+                                </div>
+                            </div>
+
+
+                            <br>
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="page_second" class=" form-control-label">Second Page Number * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="page_second" name="page_second" placeholder="Add Second Page Number" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="main_image_2" class=" form-control-label">Second Image * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="main_image_2" name="main_image_2" class="form-control-file" required>
+                                </div>
+                            </div>
+
+                            <br>
+                            <p>All * marked fields implies that it is required and can not be left empty</p>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Add</button>
+                                </div>
+                            </div>
+
+                        </form> -->
+
+                    </div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footerblock %}
+
+<script src="{% static 'back/vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'back/assets/js/init-scripts/data-table/datatables-init.js' %}"></script>
+
+<!-- for tags -->
+<script src="{% static 'back/assets/js/bootstrap-tagsinput.js' %}"></script>
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'vendor/mdb/mdb.min.js' %}"></script>
+
+<!-- lightgallery -->
+<!-- <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".lightgallery").lightGallery();
+    });
+</script>
+<script src="{% static 'js/lightgallery-all.min.js' %}"></script> -->
+
+<!-- <script>
+    $('.gallery1').EZView();
+    $('.gallery2').EZView();
+</script> -->
+
+
+
+{% endblock %}

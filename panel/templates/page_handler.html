@@ -1,0 +1,202 @@
+{% extends 'master_back.html' %}
+
+{% load static %}
+
+{% block headblock %}
+
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}">
+
+    <!-- image viewer -->
+    <script src="{% static 'back/assets/js/EZView.js' %}"></script>
+    <script src="{% static 'back/assets/js/draggable.js' %}"></script>
+
+    
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'back/vendors/mdb/mdb.min.css' %}" rel="stylesheet">
+
+    <!-- bootstrap for tags -->
+    <style>
+        .bootstrap-tagsinput {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            display: block;
+            padding: 4px 6px;
+            color: #555;
+            vertical-align: middle;
+            border-radius: 4px;
+            max-width: 100%;
+            line-height: 22px;
+            cursor: text;
+        }
+        .bootstrap-tagsinput input {
+            border: none;
+            box-shadow: none;
+            outline: none;
+            background-color: transparent;
+            padding: 0 6px;
+            margin: 0;
+            width: auto;
+            max-width: inherit;
+        }
+        .bootstrap-tagsinput .tag {
+            background: gray;
+            border: 1px solid;
+            padding: 0 6px;
+            margin-right: 2px;
+            color: white;
+            border-radius: 4px;
+            }
+    </style>
+
+    
+
+{% endblock %}
+
+{% block page_content %}
+
+    <div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">Page List</strong>
+                        
+                    </div>
+                    <div class="card-body">
+
+
+                        <table id="bootstrap-data-table-export" class="dataa-table table table-striped table-bordered">
+
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Index</th>
+                                    <th class="text-center">Page Name</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for page in page %}
+                                <tr>
+                                    <td class="text-center">
+                                        {{page.index}}
+                                    </td>
+
+                                    <td class="text-center">
+                                        {{page.page_name}}    
+                                    </td>
+
+                                    <td class="text-center">
+                                        <a href="{% url 'page_handler_edit' page_name_w=page.page_name %}"><button type="button" class="btn btn-info btn-sm"><i class="fa fa-pencil"></i> Edit</button></a>
+                                        <a href="{% url 'page_delete' page_name_w=page.page_name %}" style="pointer-events: none; cursor: default;"><button type="button" class="btn btn-danger btn-sm" disabled>Del<i class="fa fa-times"></i></button></a>
+                                        <!-- <a href="#" target="_blank"><button type="button" class="btn btn-warning">View  <i class="fa fa-eye"></i></button></a> -->
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+
+                        <hr>
+                        <br><br><br>
+                                                
+                        <form action="{% url 'page_handler' %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            {% csrf_token %}
+
+                            <h3>[ Add Page ] </h3> <br><br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="index" class=" form-control-label">Page Index : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="index" name="index" placeholder="Add Index" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="page_name" class=" form-control-label">Page Name : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="page_name" name="page_name" placeholder="Add Page Name (lowercase, no spaces, join by underscore)" class="form-control" required>
+                                    <p>** Must be unique, lowercase, no spaces, join with hyphen/underscore **</p>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="page_info" class=" form-control-label">Page Info : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <textarea name="page_info" id="page_info" cols="30" rows="5"  class="form-control" placeholder="Add Page Info"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="meta_title" class=" form-control-label">Meta Title : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="meta_title" name="meta_title" placeholder="Add Meta Title" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="meta_description" class=" form-control-label">Meta Description : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <textarea name="meta_description" id="meta_description" cols="30" rows="5"  class="form-control" placeholder="Add Meta Description"></textarea>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col col-md-2"></div>
+                                <div class="col col-md-2">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Add</button>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footerblock %}
+
+<script src="{% static 'back/vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'back/assets/js/init-scripts/data-table/datatables-init.js' %}"></script>
+
+
+<!-- for tags -->
+<script src="{% static 'back/assets/js/bootstrap-tagsinput.js' %}"></script>
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'back/vendors/mdb/mdb.min.js' %}"></script>
+
+<script>
+    $('.gallery1').EZView();
+    $('.gallery2').EZView();
+</script>
+
+{% endblock %}

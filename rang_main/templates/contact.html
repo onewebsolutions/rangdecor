@@ -1,0 +1,375 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="author" content="rangdecor.in" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+        {% for contact_us in contact_us %}
+        <title>{% if contact_us %}{{contact_us.meta_title}}{% endif %}</title>
+        <meta name="description" content="{% if contact_us %}{{contact_us.meta_description}}{% endif %}">
+        {% endfor %}
+
+
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="{% static 'front/images/Bhandari Group-R.png' %}" />
+
+        <!-- font -->
+        <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,500,500i,600,700,800,900|Poppins:200,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900">
+
+        <!-- Plugins -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/css/plugins-css.css' %}" />
+
+        <!-- revoluation -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/revolution/css/settings.css' %}" media="screen" />
+
+        <!-- Typography -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/css/typography.css' %}" />
+
+        <!-- Shortcodes -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/css/shortcodes/shortcodes.css' %}" />
+
+        <!-- Style -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/css/style.css' %}" />
+
+        <!-- interior-design -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/demo-categories/interior-design/css/interior-design.css' %}" /> 
+
+        <!-- Responsive -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/css/responsive.css' %}" /> 
+
+        <!-- Style customizer -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/css/skins/skin-green-dark.css' %}" data-style="styles"/>
+
+
+        <style>
+            .button_ {
+                background: #02B28C;
+                padding: 10px 20px;
+                font-size: 13px;
+                letter-spacing: 1px;
+                font-family: 'Montserrat', sans-serif;
+                border: 0;
+                color: #ffffff;
+                text-transform: uppercase;
+                font-weight: 500;
+                display: inline-block;
+                border-radius: 3px;
+                text-align: center;
+                border: 2px solid #84ba3f;
+                cursor: pointer;
+                border-color: #018064;
+            }
+            button {
+                transition: all 0.5s ease-in-out;
+                -webkit-transition: all 0.5s ease-in-out;
+                -o-transition: all 0.5s ease-in-out;
+                -ms-transition: all 0.5s ease-in-out;
+                -moz-transition: all 0.5s ease-in-out;
+            }
+            .clearfix::after {
+                
+            }
+            .button_:hover, .button_:focus {
+                background: #353535;
+                color: #ffffff;
+                border-color: #353535;
+            }
+        </style>
+    
+
+
+    </head>
+ 
+
+    <body>
+    
+    <div class="wrapper">
+
+
+        <!-- header -->
+        <header id="header" class="header fancy">
+
+            <!--=================================
+            mega menu -->
+            <div class="menu">  
+            <div class="container"> 
+                <div class="row"> 
+                    <div class="col-lg-12 col-md-12"> 
+                        <!-- menu start -->
+                        <nav id="menu" class="mega-menu">
+                            <!-- menu list items container -->
+                            <section class="menu-list-items">
+                            <!-- menu logo -->
+                            <ul class="menu-logo">
+                                <li style="margin-top: 5px;">
+                                    <a href="{% url 'home' %}"><img src="{% static 'front/images/Rang_1.svg' %}" alt="logo" style=""> </a>
+                                </li>
+                            </ul>
+                            <!-- menu links -->
+                            <div class="menu-bar">
+                                <ul class="menu-links">
+                                    <li><a href="{% url 'home' %}">Home </a>  </li>
+                                    <li><a href="{% url 'about' %}"> About </a> </li>
+                                    {% for vsg in vsg %}
+                                    {% if vsg.is_show == 'yes' %}
+                                    <li><a href="{% url 'vsg' vsg.area_id %}"> Visualizer </a> </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <!-- <li><a href="visual-gallery.html"> Visual Gallery </a> </li> -->
+                                    <li><a style="cursor: pointer;"> Products <i class="fa fa-angle-down fa-indicator"></i> </a> 
+                                        <ul class="drop-down-multilevel left-side">
+                                            {% for product_head in product_head %}
+                                                {% if not product_head.is_tab %}
+                                                    <li><a href="{% url 'product' product_head.product_name %}">{{product_head.product_name | capfirst}} Series </a></li>
+                                                {% else %}
+                                                    <li class="hoverTrigger">
+                                                        <a>{{product_head.product_name | capfirst}} Series
+                                                            <i class="ti-plus fa-indicator"></i> 
+                                                            <div class="mobileTriggerButton"></div> 
+                                                        </a>
+                                                        <ul class="drop-down-multilevel effect-expand-top" style="transition: all 400ms ease 0s; display: none;">
+                                                            <li><a href="{% url 'product_tab' product_head.product_name 'marble' %}">Marble</a></li>
+                                                            <li><a href="{% url 'product_tab' product_head.product_name 'wooden' %}">Wooden</a></li>
+                                                            <li><a href="{% url 'product_tab' product_head.product_name 'veneer' %}">Veneers</a></li>
+                                                            <li><a href="{% url 'product_tab' product_head.product_name 'sparkle' %}">Sparkle</a></li>
+                                                            <li><a href="{% url 'product_tab' product_head.product_name 'pattern' %}">Patterns</a></li>
+                                                            <li><a href="{% url 'product_tab' product_head.product_name 'solid_colour' %}">Solid Colours</a></li>
+                                                        </ul>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <!-- <li><a href="product-wpc-foarmboard.html">WPC Foarmboard </a> </li> -->
+                                        </ul>
+                                    </li>
+                                    <li class="hoverTrigger" style="cursor: pointer;"><a> Catalogue <i class="fa fa-angle-down fa-indicator"></i> <div class="mobileTriggerButton"></div> </a> 
+                                        <ul class="drop-down-multilevel effect-expand-top" style="transition: all 400ms ease 0s; display: none;">
+                                            <li><a href="{% url 'catalogue' 'pvc-laminate' %}"> PVC-Laminate </a> </li>
+                                            <li><a href="{% url 'catalogue' 'charco-charm' %}"> Charco-Charm </a> </li>
+                                        </ul>
+                                    </li>
+                                    <li><a style="cursor: pointer;"> Gallery <i class="fa fa-angle-down fa-indicator"></i> </a> 
+                                        <ul class="drop-down-multilevel left-side">
+                                            {% if gallery %}
+                                            {% for gallery in gallery %}
+                                            <li><a href="{% url 'gallery' gallery.pk %}"> {{gallery.name | capfirst}} Event</a></li>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </ul>
+                                    </li>
+                                    <li><a href="{% url 'contact' %}"> Contact us </a> </li>
+                                </ul>
+                            </div>
+                        </section>
+                        </nav>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!-- menu end -->
+        </header>
+
+
+        <!-- banner-slider -->
+        <section class="rev-slider">
+          <div id="rev_slider_274_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="rang decor-slider-8" data-source="gallery" style="margin:0px auto;background:transparent;padding:0px;margin-top:0px;margin-bottom:0px;">
+          <!-- START REVOLUTION SLIDER 5.4.6.3 auto mode -->
+            <div id="rev_slider_274_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.6.3">
+              <ul>  <!-- SLIDE  -->
+                  <li data-index="rs-768" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300"  data-rotate="0"  data-saveperformance="off"  data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                  <!-- MAIN IMAGE -->
+                      <img src="{% static 'front/images/banner/Contact_US-compressed.jpg' %}"  alt=""  data-bgposition="center center" data-bgfit="cover" class="rev-slidebg" data-no-retina>
+                  <!-- LAYERS -->
+              
+                  <!-- BACKGROUND VIDEO LAYER -->
+                </li>
+              </ul>
+        <div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div> </div>
+        </div>      
+        </section>
+
+          
+        <!-- contact info and form -->
+        <section class="contact white-bg page-section-ptb">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                <div class="section-title text-center">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 30px;">
+                                <strong>Success!</strong> {{message}}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <h6>let's work together</h6>
+                    <h2>Let’s Get In Touch!</h2>
+                    <p>Our experts are ready to cater to you, what are you waiting for?</p>
+                </div>
+            </div>
+            </div>
+            <div class="touch-in white-bg">
+                <div class="row">
+                    {% if lc %}
+                    {% for lc in lc %}
+                        <div class="col-lg-4 col-md-4 sm-mb-30">
+                            <div class="contact-box text-center h-100">
+                                <i class="{{lc.intro}} theme-color"></i>
+                                <h5 class="uppercase mt-20">{{lc.title}}</h5>
+                                <p class="mt-20">{{lc.detail}}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+            <div class="col-lg-12 text-center">
+                <p class="mt-50 mb-30">It would be great to hear from you. If you got any questions, please do not hesitate to send us a message. <br> We are looking forward to hearing from you. We reply within <span class="tooltip-content-2" data-original-title="Mon-Fri 10am–7pm (GMT +1)" data-toggle="tooltip" data-placement="top"> 24 hours!</span></p>
+            </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="formmessage">Success/Error Message Goes Here</div>
+                        <form method="POST" action="{% url 'lead' %}">
+                            {% csrf_token %}
+                            <div class="contact-form clearfix">
+                                <div class="section-field">
+                                    <input id="name" type="text" placeholder="Name*" class="form-control"  name="name" required>
+                                </div> 
+                                <div class="section-field">
+                                    <input type="email" placeholder="Email*" class="form-control" name="email" required>
+                                </div>
+                                <div class="section-field">
+                                    <input type="text" placeholder="Phone*" class="form-control" name="phone" required>
+                                </div>
+                                <div class="section-field textarea">
+                                    <textarea class="form-control input-message" placeholder="Message*" rows="7" name="message" required></textarea>
+                                </div>
+                                <div class="section-field submit-button">
+                                    <button name="submit" type="submit" class="button_"> Send your message </button>
+                                </div>
+                            </div>
+                        </form>
+                </div>
+            </div>
+
+        </div>
+        </section>
+
+        
+        <!-- maps -->
+        <section class="contact-map clearfix o-hidden">
+            <div class="container-fluid p-0">
+                <div class="row">
+                    {% for contact_us in contact_us %}
+                    <div class="col-lg-12">
+                        <div style="height: 400px;">
+                            <iframe src="{{contact_us.url}}" width=" " height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Footer -->
+        <footer class="footer page-section-pt black-bg">
+            <div class="container">
+                <ul class="menu-logo" style="margin-left: 20px; list-style: none; display: flex; justify-content: center; margin-top: -20px;">
+                    <li>
+                        <a href="index.html"><img src="{% static 'front/images/Rang-footer.svg' %}" alt="logo" style="height: 60px; margin-right: 60px;"> </a>
+                    </li>
+                    <li>
+                        <a href="index.html"><img src="{% static 'front/images/Bhandari_Group.svg' %}" alt="logo" style="height: 70px;"> </a>
+                    </li>
+                </ul>
+                
+                <div class="footer-widget mt-40">                        
+                    
+                    <div class="row">
+
+                        <div class="col-lg-4 col-md-6 text-left text-md-right">
+                            <div class="social-icons color-hover mt-10" style="display: flex; justify-content: center;">
+                                <ul style="margin-top: 10px;"> 
+                                    <li class="social-facebook"><a href="https://www.facebook.com/rang.decor.9" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                    <li class="social-pinterest"><a href="https://in.pinterest.com/rangdecor/boards/" target="_blank"><i class="fa fa-pinterest"></i></a></li>
+                                    <li class="social-instagram"><a href="https://www.instagram.com/rangdecor_/" target="_blank"><i class="fa fa-instagram"></i> </a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6" >
+
+                            <ul style="list-style: none; margin-top: 20px;">
+                                <li><a href="{% url 'policy_terms' %}" style="display: flex; justify-content: center;">Terms & Conditions</a></li>
+                                <li><a href="{% url 'policy_privacy' %}" style="display: flex; justify-content: center;">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 text-md-left" >
+                            <p class="mt-15" style="text-align: center;"> &copy;Copyright <a href="https://krioskcreata.com" target="_blank"> Rang </a> All Rights Reserved Developed by <a href="https://krioskcreata.com"><img src="{% static 'front/images/kriosk_logo.svg' %}" alt="Kriosk Creata" style="height: 25px; margin-left: 10px;"></a> </p>
+                        </div>
+
+                    </div>    
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    
+
+    <div id="back-to-top"><a class="top arrow" href="#top"><i class="fa fa-angle-up"></i> <span>TOP</span></a></div>
+        
+    <!--=================================
+    jquery -->
+
+    <!-- jquery -->
+    <script src="{% static 'front/js/jquery-3.3.1.min.j' %}s"></script>
+
+    <!-- plugins-jquery -->
+    <script src="{% static 'front/js/plugins-jquery.js' %}"></script>
+
+    <!-- plugin_path -->
+    <script>var plugin_path = 'js/';</script>
+    
+    <!-- REVOLUTION JS FILES -->
+    <script src="{% static 'front/revolution/js/jquery.themepunch.tools.min.js' %}"></script>
+    <script src="{% static 'front/revolution/js/jquery.themepunch.revolution.min.js' %}"></script>
+
+    <!-- SLIDER REVOLUTION 5.0 EXTENSIONS  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->
+    <script src="{% static 'front/revolution/js/extensions/revolution.extension.actions.min.js' %}"></script>
+    <script src="{% static 'front/revolution/js/extensions/revolution.extension.carousel.min.js' %}"></script>
+    <script src="{% static 'front/revolution/js/extensions/revolution.extension.kenburn.min.js' %}"></script>
+    <script src="{% static 'front/revolution/js/extensions/revolution.extension.layeranimation.min.js' %}"></script>
+    <script src="{% static 'front/revolution/js/extensions/revolution.extension.migration.min.js' %}"></script>
+    <script src="{% static 'front/revolution/js/extensions/revolution.extension.navigation.min.js' %}"></script>
+    <script src="{% static 'front/revolution/js/extensions/revolution.extension.parallax.min.js' %}"></script>
+    <script src="{% static 'front/revolution/js/extensions/revolution.extension.slideanims.min.js' %}"></script>
+    <script src="{% static 'front/revolution/js/extensions/revolution.extension.video.min.js' %}"></script>
+    <!-- revolution custom --> 
+    <script src="{% static 'front/revolution/js/revolution-custom.js' %}"></script> 
+
+    <!-- custom -->
+    <script src="{% static 'front/js/custom.js' %}"></script>
+
+
+    
+
+    </body>
+
+
+</html>

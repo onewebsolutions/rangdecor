@@ -1,0 +1,84 @@
+{% extends 'master_back.html' %}
+
+{% load static %}
+
+
+{% block headblock %}
+
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'back/vendors/mdb/mdb.min.css' %}" rel="stylesheet">
+
+
+{% endblock %}
+
+{% block page_content %}
+
+
+<div class="animated fadeIn">
+    <div class="row">
+
+        <div class="col-md-12">
+            <!-- Looper Component -->
+            <div class="card" id="looper">
+                <div class="card-header">
+                    <strong class="card-title">Revert Back to <b>{{lead.name}}</b> at <b>{{lead.email}}</b></strong>
+                </div>
+                <div class="card-body">
+
+                    <form action="{% url 'lead_revert' lead.pk %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        {% csrf_token %}
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="title" class=" form-control-label">Title : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="text" id="title" name="title" placeholder="Add Title" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="message" class=" form-control-label">Message : </label>
+                            </div>
+                            <div class="col col-md-7">
+                                <textarea name="message" id="message" cols="30" rows="5"  class="form-control" placeholder="Add Message" style="white-space: pre-wrap;" required></textarea>
+                            </div>
+                            <script>
+                                CKEDITOR.replace( 'message' );
+                            </script>
+                        </div>
+
+                        <br>
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col col-md-2">
+                            </div>
+                            <div class="col col-md-2">
+                                <button type="submit" class="btn btn-info btn-sm">Revert <i class="fa fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block footerblock %}
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'back/vendors/mdb/mdb.min.js' %}"></script>
+
+{% endblock %}
+
+

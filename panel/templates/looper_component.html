@@ -1,0 +1,417 @@
+{% extends 'master_back.html' %}
+
+{% load static %}
+
+{% block headblock %}
+
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}">
+
+    <!-- image viewer -->
+    <script src="{% static 'back/assets/js/EZView.js' %}"></script>
+    <script src="{% static 'back/assets/js/draggable.js' %}"></script>
+
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'back/vendors/mdb/mdb.min.css' %}" rel="stylesheet">
+
+    <!-- smart photo -->
+    <link href="{% static 'back/vendors/smart-photo/smartphoto.min.css' %}" rel="stylesheet">
+
+    <!-- bootstrap for tags -->
+    <style>
+        .bootstrap-tagsinput {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            display: block;
+            padding: 4px 6px;
+            color: #555;
+            vertical-align: middle;
+            border-radius: 4px;
+            max-width: 100%;
+            line-height: 22px;
+            cursor: text;
+        }
+        .bootstrap-tagsinput input {
+            border: none;
+            box-shadow: none;
+            outline: none;
+            background-color: transparent;
+            padding: 0 6px;
+            margin: 0;
+            width: auto;
+            max-width: inherit;
+        }
+        .bootstrap-tagsinput .tag {
+            background: gray;
+            border: 1px solid;
+            padding: 0 6px;
+            margin-right: 2px;
+            color: white;
+            border-radius: 4px;
+            }
+    </style>
+    
+
+{% endblock %}
+
+{% block page_content %}
+
+    <div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <!-- <div class="text-center" style="margin-bottom: 20px;">
+                    <a href="#looper"><button class="btn peach-gradient">Loopers</button></a>
+                    <a href="#informative"><button class="btn aqua-gradient">Informatives</button></a>
+                </div> -->
+
+                <!-- Looper Component -->
+                <div class="card" id="looper">
+                    <div class="card-header">
+                        <strong class="card-title">Looper Component List</strong>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 30px;">
+                                    <strong>Success!</strong> {{message}}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+
+                        <table id="bootstrap-data-table-export" class="dataa-table table table-striped table-bordered">
+
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Index</th>
+                                    <th class="text-center">Predecessors [Page | Looper Section Name]</th>
+                                    <th class="text-center">LC Name</th>
+                                    <th class="text-center">LC Image</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% if looper_component %}
+                                {% for looper_component in looper_component %}
+                                <tr>
+                                    <td class="text-center">
+                                        {{looper_component.index}}
+                                    </td>
+
+                                    <td class="text-center">
+                                        {% if looper_section %} {{looper_section.page_name}} {% endif %} | {{looper_section.name}}
+                                    </td>
+
+                                    <td class="text-center">
+                                        {{looper_component.name}}
+                                    </td>
+
+                                    <td class="text-center">
+                                        <a href="{% if looper_component.main_image %} {{looper_component.main_image.url}} {% endif %}" class="js-img-viewer-fit" data-caption="Rang Decor" data-id="lion">
+                                            <img src="{% if looper_component.main_image %} {{looper_component.main_image.url}} {% endif %}" alt="" style="height: 50px;">
+                                        </a>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <a href="{% url 'looper_component_edit' looper_section.name looper_component.pk %}"><button type="button" class="btn btn-info btn-sm"><i class="fa fa-pencil"></i> Edit</button></a>
+                                        <a href="#" data-toggle="modal" data-target="#looper_component_{{looper_component.pk}}"><button type="button" class="btn btn-danger btn-sm">Del<i class="fa fa-times"></i></button></a>
+                                        <!-- <a href="#"><button type="button" class="btn btn-primary"><i class="fa fa-paperclip"></i> Add Fullsheet</button></a> -->
+                                        <!-- <a href="#" target="_blank"><button type="button" class="btn btn-warning">View  <i class="fa fa-eye"></i></button></a> -->
+
+                                        <!-- Delete Confirm -->
+                                        <div class="modal fade bottom" id="looper_component_{{looper_component.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-frame modal-bottom" role="document">
+                                              <div class="modal-content">
+                                                <div class="modal-body">
+                                                  <div class="row d-flex justify-content-center align-items-center">
+  
+                                                    <p class="pt-3 pr-2">
+                                                      This action will delete the Looper Section <b>"{{looper_component.name}}"</b> of {{looper_section.page_name}} page completely and it is
+                                                      irreparable by nature. Once it is gone it is gone !
+                                                    </p>
+  
+                                                    <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Close</button>
+                                                    <a href="{% url 'looper_component_delete' looper_section.name looper_component.pk %}"><button type="button" class="btn btn-dark"><b>Delete</b></button></a>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+
+                        </table>
+
+                        <hr>
+                        <br><br><br>
+                                                
+                        <form action="{% url 'looper_component_add' looper_section.name %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            {% csrf_token %}
+
+                            <h3>[ Add Looper Component ] </h3> <br><br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="index" class=" form-control-label">Index : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="index" name="index" placeholder="Add Index" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="section_name" class=" form-control-label">Section Name : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <select name="section_name" id="section_name" class="form-control" required>
+                                        <option value="{{looper_section.name}}">{{looper_section.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="name" class=" form-control-label">Component Name : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="name" name="name" placeholder="Add Component Name" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <h6 class="text-center" style="color: grey;">page content from now on</h6>
+                            <hr>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="title" class=" form-control-label">Section Title : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="title" name="title" placeholder="Add Title" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="intro" class=" form-control-label">Section Introduction : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <textarea name="intro" id="intro" cols="30" rows="5"  class="form-control" placeholder="Add Section Intro"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="detail" class=" form-control-label">Section Details : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <textarea name="detail" id="detail" cols="30" rows="5"  class="form-control" placeholder="Add Section Detail"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="main_image" class=" form-control-label">Main Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="main_image" name="main_image" class="form-control-file">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="second_image" class=" form-control-label">Second Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="second_image" name="second_image" class="form-control-file">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="third_image" class=" form-control-label">Third Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="third_image" name="third_image" class="form-control-file">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="bg_image" class=" form-control-label">Background Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="bg_image" name="bg_image" class="form-control-file">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="side" class=" form-control-label">Image Side : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <select name="side" id="side" class="form-control">
+                                        <option value="" selected>None</option>
+                                        <option value="left">Left</option>
+                                        <option value="right">Right</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col col-md-2"></div>
+                                <div class="col col-md-2">
+                                    <button type="submit" class="btn btn-primary "><i class="fa fa-plus"></i> Add</button>
+                                </div>
+                            </div>
+
+                        </form>
+
+                        <!-- Modal-->
+                        <div class="modal fade" id="modalLRForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog cascading-modal" role="document">
+                                <div class="modal-content">
+
+                                    <!--Modal cascading tabs-->
+                                    <div class="modal-c-tabs">
+
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs md-tabs tabs-2 light-blue darken-3" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" data-toggle="tab" href="#looper_" role="tab"><i class="fa fa-undo mr-1"></i> &nbsp;Looper</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#informative_" role="tab">Informative &nbsp;<i class="fa fa-info-circle mr-1"></i></a>
+                                            </li>
+                                        </ul>
+
+                                        <!-- Tab panels -->
+                                        <div class="tab-content">
+                                            <!--loopers-->
+                                            <div class="tab-pane fade in show active" id="looper_" role="tabpanel">
+
+                                                <!--Body-->
+                                                <div class="modal-body mb-1">
+                                                    <div class="md-form form-sm mb-5">
+                                                        <input type="text" id="" name="" class="form-control form-control-sm validate">
+                                                        <label data-error="wrong" data-success="right" for="modalLRInput10">Your email</label>
+                                                    </div>
+
+                                                    <div class="md-form form-sm mb-4">
+                                                        <input type="text" id="" name="" class="form-control form-control-sm validate">
+                                                        <label data-error="wrong" data-success="right" for="modalLRInput10">Your email</label>
+                                                    </div>
+                                                    <div class="text-center mt-2">
+                                                        <button class="btn btn-info">Submit &nbsp; <i class="fa fa-paper-plane"></i></button>
+                                                    </div>
+                                                </div>
+                                                <!--Footer-->
+                                                <!-- <div class="modal-footer">
+                                                <div class="options text-center text-md-right mt-1">
+                                                    <p>Not a member? <a href="#" class="blue-text">Sign Up</a></p>
+                                                    <p>Forgot <a href="#" class="blue-text">Password?</a></p>
+                                                </div>
+                                                <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>
+                                                </div> -->
+
+                                            </div>
+
+                                            <!-- informatives -->
+                                            <div class="tab-pane fade" id="informative_" role="tabpanel">
+
+                                                <!--Body-->
+                                                <div class="modal-body">
+                                                <div class="md-form form-sm mb-5">
+                                                    <i class="fa fa-envelope prefix"></i>
+                                                    <input type="email" id="modalLRInput12" class="form-control form-control-sm validate">
+                                                    <label data-error="wrong" data-success="right" for="modalLRInput12">Your email</label>
+                                                </div>
+
+                                                <div class="md-form form-sm mb-5">
+                                                    <i class="fa fa-lock prefix"></i>
+                                                    <input type="password" id="modalLRInput13" class="form-control form-control-sm validate">
+                                                    <label data-error="wrong" data-success="right" for="modalLRInput13">Your password</label>
+                                                </div>
+
+                                                <div class="md-form form-sm mb-4">
+                                                    <i class="fa fa-lock prefix"></i>
+                                                    <input type="password" id="modalLRInput14" class="form-control form-control-sm validate">
+                                                    <label data-error="wrong" data-success="right" for="modalLRInput14">Repeat password</label>
+                                                </div>
+
+                                                <div class="text-center form-sm mt-2">
+                                                    <button class="btn btn-info">Submit &nbsp; <i class="fa fa-paper-plane"></i></button>
+                                                </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="text-center">
+                        <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLRForm">Launch
+                            Modal Contact Form</a>
+                        </div> -->
+
+                    </div>
+                </div>
+                
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footerblock %}
+
+<script src="{% static 'back/vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'back/assets/js/init-scripts/data-table/datatables-init.js' %}"></script>
+
+<!-- for tags -->
+<script src="{% static 'back/assets/js/bootstrap-tagsinput.js' %}"></script>
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'back/vendors/mdb/mdb.min.js' %}"></script>
+
+<!-- smart photo -->
+<script src="{% static 'back/vendors/smart-photo/smartphoto.js' %}"></script>
+
+<!-- <script>
+    $('.gallery1').EZView();
+    $('.gallery2').EZView();
+</script> -->
+
+<script>
+	window.addEventListener('load',function(){
+		new SmartPhoto(".js-img-viewer");
+        new SmartPhoto(".js-img-viewer-fit");
+	});
+</script>
+
+{% endblock %}

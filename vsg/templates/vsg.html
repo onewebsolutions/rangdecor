@@ -1,0 +1,672 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <meta http-equiv="Content-Type" content="image/svg+xml; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+        
+        <title>{% if vsg %}{{vsg.meta_title}}{% endif %}</title>
+        <meta name="description" content="{% if vsg %}{{vsg.meta_description}}{% endif %}" />
+       
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="{% static 'front/images/Bhandari Group-R.png' %}" />
+        
+        <!-- head stylesheets -->
+        <link rel="canonical" href="index.html" />
+        <link href="{% static 'vsg/css/msi-ui6c3f.css' %}" rel="stylesheet"/>
+        <!-- Begin Mailchimp Signup Form -->
+        <link href="{% static 'vsg/css/classic-10_7.css' %}" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600|Raleway:400,500&amp;selection.subset=latin-ext"/>
+
+        <!-- head scripts -->
+        <!-- Google Tag Manager -->
+        <script>
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || []; w[l].push({
+                    'gtm.start':
+                        new Date().getTime(), event: 'gtm.js'
+                }); var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                        '../../www.googletagmanager.com/gtm5445.html?id=' + i + dl; f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-M2KXQ3');
+        </script>
+        <script src="{% static 'vsg/js/jquery0260.js' %}"></script>
+
+        <link rel="stylesheet" href="{% static 'back/vendors/font-awesome/css/font-awesome.min.css' %}">
+
+        <script type="text/javascript">
+
+            var url = "";
+
+            function doAction(url, name, brand) {
+
+                $('.main-image').css('background-image', 'url(' + url + ')');
+
+                $('.post-title').html('  ' + name);
+
+                $('.brand-name').html('  ' + brand);
+
+                $('.image-selected').attr("src", url);
+
+                // $('.post-finish').html(finish)
+
+            }
+
+        </script>
+
+        <!-- jquery -->
+        <!-- <script src="{% static 'front/js/jquery-3.3.1.min.js' %}"></script> -->
+        <!-- lazy -->
+        <!-- <script type="text/javascript" src="{% static 'front/js/jquery.lazy.min.js' %}"></script> -->
+
+        <style>
+            @media(max-width: 992px){
+                .cartbtn-header1{
+                    margin-top: -8px !important;
+                    display: none !important;
+                }
+                .cartbtn-header2{
+                    margin-top: -8px !important;
+                }
+            }
+            @media(min-width: 992px){
+                .cartbtn-header2{
+                    display: none !important;
+                }
+            }
+            /* bootstrap xs gridding */
+            .col-1212{
+                width: 100% !important;
+            }
+            .col-1111{
+                width: 91.3% !important;
+            }
+            .col-1010{
+                width: 83% !important;
+            }
+            .col-99{
+                width: 74.7% !important;
+            }
+            .col-88{
+                width: 66.4% !important;
+            }
+            .col-77{
+                width: 58.1% !important;
+            }
+            .col-66{
+                width: 49.8% !important;
+            }
+            .col-55{
+                width: 41.5% !important;
+            }
+            .col-44{
+                width: 33.2% !important;
+            }
+            .col-33{
+                width: 24.9% !important;
+            }
+            .col-22{
+                width: 16.6% !important;
+            }
+            .col-11{
+                width: 8.3% !important;
+            }
+
+            .buttonin {
+                border: 1px solid #8B6F4E;
+            }
+
+        </style>
+
+    </head>
+
+
+    <body>
+
+        <!-- header -->
+        <header id="HeadSection">
+        
+            <div class="container-wrapper">
+            <div class="logo-container">
+                <div class="logo display-inline">
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'vsg/images/rang.svg' %}" alt="rang Decor">
+                    </a>
+                </div>
+                <div class="nav-login display-inline">
+                    <a href="#msi-mmenu" title="product-menu" class="glyphicon glyphicon-menu-hamburger dropdown-toggle toggle-menu hmbrgr-mbl">MENU</a>
+                    
+                    <!-- <span class="divider cartdvdr">|</span> -->
+                    <a href="{% url 'home' %}" target="_blank" class="cartbtn-header cartbtn-header1">
+                        <img src="{% static 'vsg/images/back.png' %}" alt="" style="margin-bottom: 3px;">
+                        <span class="SampleSpan">BACK TO HOME</span>
+                    </a>
+                    <a href="{% url 'home' %}" target="_blank" class="cartbtn-header cartbtn-header2">
+                        <img src="{% static 'vsg/images/back.png' %}" alt="" style="margin-bottom: 3px;">
+                        <span class="SampleSpan">Back</span>
+                    </a>
+                </div>
+            </div>
+            </div>
+
+            <hr />
+
+            <!-- menu -->
+            <div id="menu-wrap" class="topnav-wrapper" style="display: flex; justify-content: center;">
+                <div class="container-wrapper">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <ul class="msi-navbar-main" id="msi-navbarmain">
+                                <li>
+                                    <nav id="msi-mmenu" aria-label="menu">
+                                        <ul id="msi-navbar" class="hidden">
+                                            <li>
+                                                <a href="javascript:void(0)">Application Area</a>
+                                                <ul class="sub-menu">
+                                                    {% for vsgs in vsgs %}
+                                                    <li>
+                                                        <a href="{% url 'vsg' vsgs.area_id %}" target="_self">{{vsgs.area | capfirst}}</a>
+                                                    </li>
+                                                    {% endfor %}
+                                                    <!-- <li>
+                                                        <a href="#" target="_self">Kitchen</a>
+                                                        <ul class="nested-navbar-ul">
+                                                            <li class="nested-navbar-li"><a href="#">Wall</a></li>
+                                                            <li class="nested-navbar-li"><a href="#">Furniture</a></li>
+                                                        </ul>
+                                                    </li> -->
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)">Explore More</a>
+                                                <ul>
+                                                    {% for product in product %}
+                                                    {% if not product.is_tab %}
+                                                    <li><a href="{% url 'product' product.product_name %}" target="_self">{{product.product_name | capfirst}} Series</a> </li>
+                                                    {% else %}
+                                                    <li class="hoverTrigger">
+                                                        <a>{{product.product_name | capfirst}} Series</a>
+                                                        <ul class="nested-navbar-ul">
+                                                            <li class="nested-navbar-li"><a href="{% url 'product_tab' product.product_name 'marble' %}">Marble</a></li>
+                                                            <li class="nested-navbar-li"><a href="{% url 'product_tab' product.product_name 'wooden' %}">Wooden</a></li>
+                                                            <li class="nested-navbar-li"><a href="{% url 'product_tab' product.product_name 'veneer' %}">Veneers</a></li>
+                                                            <li class="nested-navbar-li"><a href="{% url 'product_tab' product.product_name 'sparkle' %}">Sparkle</a></li>
+                                                            <li class="nested-navbar-li"><a href="{% url 'product_tab' product.product_name 'pattern' %}">Patterns</a></li>
+                                                            <li class="nested-navbar-li"><a href="{% url 'product_tab' product.product_name 'solid_colour' %}">Solid Colours</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'contact' %}" target="_self">Contact Us</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                
+
+                // $.ajax({
+                //     type: "POST",
+                //     url: 'https://www.msisurfaces.com/autofill.asmx/OSGetCount',
+                //     contentType: "application/json; charset=utf-8",
+                //     dataType: "json",
+                //     success: function (response) {
+                //         var count = response.d;
+                //         if (count != 0) {
+                //             $('#Header_lblCnt').html(count);
+                //         }
+                //         else {
+                //             $('#Header_lblCnt').visible = false;
+                //         }
+
+
+
+                //     },
+                //     error: function (xhr) {
+
+                //         console.log(xhr);
+                //     }
+                // });
+            });
+            </script>
+
+        </header>
+
+        <!-- main section -->
+        <section role="main">
+
+            <div class="ss-section">
+                <div class="container">
+
+                    <div class="row space-top-2x">
+
+                        <!-- right content -->
+                        <div class="col-xs-12 col-sm-12 col-lg-12 col-xl-4 col-xl-push-8" id="EnvisionBathroom">
+                            <h1 class="text-center">ENVISION YOUR SPACE</h1>
+                            <p class="text-center bathroom_text">
+                                    Encounter the enlivened version of our products to ensure their presence and their beauty that we promise to bring to your space. 
+                            </p>
+                            <div class="hidden-xs hidden-sm hidden-md" id="instructions">
+                                <div class="instruct">
+                                    <h4 class="text-center instruct-heading">INSTRUCTIONS</h4>
+                                    <div class="image123">
+                                        <img class="img-responsive" Align="middle" src="{% static 'vsg/images/onetwothree.png' %}" alt="onetwothree" />
+                                    </div>
+                                    <div class="instruct-text">
+                                        <p class="p1">Choose Application Area.</p>
+                                        <p class="p2">Select any of our Product.</p>
+                                        <p class="p3">Witness the Magic!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="hidden-xs hidden-sm hidden-md hidden-lg selected-opt">
+                                    <div class="h5 text-center">Selected option</div>
+                                    <br/>
+                                    <div class="col-lg-9 selected-backsplash-left">
+                                        <h3 class="text-center brand-name" style="margin-top: 0px;">Bern :</h3>
+                                        <img id="backsplashthumbimg" class="image-selected img-responsive" style="height: 100px; width: 100px; object-fit: cover !important;" src="{% static 'vsg/images/products/aura/2138.jpg' %}"/>
+                                        <a class="backsplashprodid text-center post-title">2138</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- left main image -->
+                        <div class="col-xs-12 col-sm-12 col-lg-12 col-xl-8 col-xl-pull-4 space-top">
+                            <canvas id="bhCanvas" class="hide" height="712" width="930"></canvas>
+                            <img src="{% if vsg.main_image %}{{vsg.main_image.url}}{% endif %}" alt="" style="position: relative; width: 100%; background-image: url({% static 'vsg/images/products/aura/2138.jpg' %}); background-size: 150px;" class="main-image" id="main-image">
+                        </div>
+                        
+                    </div>
+
+                    <div class="row space-top bth_visualizerwidth" id="BathroomVisualizer">
+                        <div class="col-xs-12 tabs" id="tabsalign">
+
+                            <!-- needed for expand button function -->
+                            <!-- <div class="row space-top hide" id="Expand-row">
+                                <h2 id="ExpandText" class="text-center col-xs-12 col-sm-12 col-md-12 col-lg-6 col-lg-offset-5 space-bottom" style="display:none;">Choose from options below</h2>
+                                <br/>
+                                <p id="ExpandParagraph" class="text-center hide">Once your color options are selected, exit out of this window to view your ideal bathroom.<br /></p>
+                            </div>
+
+                            <a class="MagicZoom col-lg-5 img-responsive space-top-2x  hidden-xs hidden-sm hidden-md hide" id="Expandzoom" data-options="zoomPosition:inner; zoomDistance: 0;zoomCaption: bottom hint: always;zoomWidth:100%;zoomHeight:100%;" href="">
+                                <img src="images/demo.jpg" alt="" style="position: relative; width: 100%;">
+                            </a> -->
+
+                            <!-- Buttons right -->
+                            <ul class="nav nav-tabs">
+                                
+                                <!-- Expand -->
+                                <!-- <li class="pull-right">
+                                    <button class="btn btn-primary btn-sm mp-popup" id="Expand" href="#BathroomVisualizer"><img src="{% static 'vsg/images/expand.svg' %}" class="Expandimg" alt="expand svg" /> 
+                                        <span class="hidden-xs"> Expand</span>
+                                    </button>
+                                </li> -->
+
+                                <li class="hidden-sm hidden-md hidden-lg"> <br /><br /></li>
+
+                                <li class="col-xs-6 pull-left">
+                                    {% for product in product %}
+                                        {% if product.is_vsg == 'yes' %}
+                                            {% if product.index == '1' %}
+                                                <li class="backsplash active"><a href="#product_{{product.pk}}" data-toggle="tab" >{{product.product_name}}</a></li>
+                                            {% else %}
+                                                <li class="backsplash"><a href="#product_{{product.pk}}" data-toggle="tab" >{{product.product_name}}</a></li>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </li>
+
+                            </ul>
+
+                            <!-- Tab content -->
+                            <div class="tab-content">
+                                {% for product in product %}
+                                    {% if product.is_vsg == 'yes' %}
+                                        {% if product.index == '1' %}
+                                            <div id="product_{{product.pk}}" class="tab-pane fade backsplash in active">
+                                                <!-- title -->
+                                                <div class="row">
+                                                    <label class="col-xs-12 prod-text">{{product.product_name}} :<a class="backsplashprodname post-title"></a><br /></label>
+                                                    <br />
+                                                </div>
+                                                <div class="row  tab-scroll subcategory-tab">
+                                                    {% for sheet in sheet %}
+                                                    {% if sheet.fk == product %}
+                                                    <div class="subcategory-img text-left" data-filter="2924" data-subcategory="backsplash">
+                                                        <span data-filter="2924" class="text-center">
+                                                            <a href="javascript:void(0)" style="cursor:pointer" class="crop">
+                                                                <img class="thumbimg product-image lazy" src="{% if sheet.main_image %}{{sheet.main_image.url}}{% endif %}" loading="lazy" alt="{{sheet.number}}" onclick="doAction( '{% if sheet.main_image %}{{sheet.main_image.url}}{% endif %}', '{{sheet.number}}', '{{product.product_name}}');" style="object-fit: cover !important;">
+                                                            </a>
+                                                            <figcaption class="img-title">{{sheet.number}}</figcaption>
+                                                            <div style="width: 100%; margin-top: -50px; padding-bottom: 30px;"><a href="{{sheet.main_image.url}}" target="_blank"><button class="buttonin"><i class="fa fa-search-plus" style="color: #8B6F4E"></i></button></a></div>
+                                                        </span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% endfor %}
+
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <div id="product_{{product.pk}}" class="tab-pane fade backsplash in">
+                                                <!-- title -->
+                                                <div class="row">
+                                                    <label class="col-xs-12 prod-text">{{product.product_name}} :<a class="backsplashprodname post-title"></a><br /></label>
+                                                    <br />
+                                                </div>
+                                                <div class="row  tab-scroll subcategory-tab">
+                                                    {% for sheet in sheet %}
+                                                    {% if sheet.fk == product %}
+                                                    <div class="subcategory-img text-left" data-filter="2924" data-subcategory="backsplash">
+                                                        <span data-filter="2924" class="text-center">
+                                                            <a href="javascript:void(0)" style="cursor:pointer" class="crop">
+                                                                <img id="2924" class="thumbimg lazy product-image" src="{{sheet.main_image.url}}" loading="lazy" alt="{{sheet.number}}" onclick="doAction( '{{sheet.main_image.url}}', '{{sheet.number}}', '{{product.product_name}}' );" style="object-fit: cover !important;">
+                                                            </a>
+                                                            <figcaption class="img-title">{{sheet.number}}</figcaption>
+                                                            <div style="width: 100%; margin-top: -50px; padding-bottom: 30px;"><a href="{{sheet.main_image.url}}" target="_blank"><button class="buttonin"><i class="fa fa-search-plus" style="color: #8B6F4E"></i></button></a></div>
+                                                        </span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% endfor %}
+
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <br/>
+
+                <!-- Needed for Expand -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myEmailModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="Close()">×</button>
+                                <h4 class="modal-title" id="myEmailModalLabel">EMAIL</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div style="clear: both"></div>
+                                <div class="row">
+                                    <div class="col-lg-1">
+                                        <b>To</b>
+                                    </div>
+                                    <div class="col-lg-11">
+                                        <input type="text" class="required" placeholder="abc@msisurfaces.com" name="ToIds" id="ToIds" style="width:100%;" />
+                                        <span id="email" class="text-danger">please enter valid email address</span>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-lg-1">
+                                        <b>CC</b>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input type="text" name="CCIds" style="width:100%;" id="CCIds" placeholder="abc@msisurfaces.com,abc123@gmail.com" />
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <b>BCC</b>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input type="text" class="required" name="BCCIds" id="BCCIds" style="width:100%;" placeholder="abc@msisurfaces.com,abc123@gmail.com" />
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-lg-1" style="padding-top:15px;">
+                                        <b>Subject</b>
+                                    </div>
+                                    <div class="col-lg-11">
+                                        <input type="text" class="form-control" name="subject" id="subject" value="My Bathroom Design" />
+                                    </div>
+                                </div>
+                                <br />
+                                <textarea name="editor" id="editor"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="row">
+                                    <div class="col-xs-12 col-lg-6">
+                                        <button type="button" class="btn btn-primary" onclick="SendEmail()">SEND</button>
+                                        <button type="button" class="btn btn-warning" onclick="Close()">CANCEL</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <script defer type="text/javascript">
+                var Options = '[{"ProductID":2885,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":2885,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":2885,"OptionID":802,"OptionGroupName":"Size"},{"ProductID":2924,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":2924,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":2924,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":3086,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":3086,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3057,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":3057,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":3057,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3057,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":3058,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":3058,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3058,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":3058,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":2356,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":2356,"OptionID":1240,"OptionGroupName":"Style"},{"ProductID":2356,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2440,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":2440,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2440,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":2956,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2956,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":2957,"OptionID":7,"OptionGroupName":"Color"},{"ProductID":2957,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":1710,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":1710,"OptionID":1241,"OptionGroupName":"Style"},{"ProductID":1710,"OptionID":820,"OptionGroupName":"Size"},{"ProductID":2525,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2525,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2525,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":2111,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2111,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2438,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2438,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2438,"OptionID":850,"OptionGroupName":"Size"},{"ProductID":3244,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3244,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3244,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3123,"OptionID":8,"OptionGroupName":"Color"},{"ProductID":3123,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":1246,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":1146,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":1146,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":1246,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":1146,"OptionID":578,"OptionGroupName":"Size"},{"ProductID":1146,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":1246,"OptionID":962,"OptionGroupName":"Size"},{"ProductID":1246,"OptionID":824,"OptionGroupName":"Size"},{"ProductID":1146,"OptionID":578,"OptionGroupName":"Size"},{"ProductID":1146,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":3251,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":3251,"OptionID":1237,"OptionGroupName":"Style"},{"ProductID":3251,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":1195,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":1112,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":1195,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1112,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1112,"OptionID":554,"OptionGroupName":"Size"},{"ProductID":1112,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":1112,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1112,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":1112,"OptionID":622,"OptionGroupName":"Size"},{"ProductID":1195,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":1195,"OptionID":966,"OptionGroupName":"Size"},{"ProductID":1195,"OptionID":824,"OptionGroupName":"Size"},{"ProductID":1195,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":2753,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2753,"OptionID":1241,"OptionGroupName":"Style"},{"ProductID":2753,"OptionID":836,"OptionGroupName":"Size"},{"ProductID":2728,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2728,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":2728,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2729,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2729,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":2729,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3228,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3228,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":3228,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3221,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3221,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":3221,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2732,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2732,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2732,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":3321,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":3321,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3321,"OptionID":622,"OptionGroupName":"Size"},{"ProductID":3321,"OptionID":953,"OptionGroupName":"Size"},{"ProductID":3070,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3070,"OptionID":974,"OptionGroupName":"Size"},{"ProductID":3070,"OptionID":1321,"OptionGroupName":"Size"},{"ProductID":3070,"OptionID":626,"OptionGroupName":"Size"},{"ProductID":3070,"OptionID":974,"OptionGroupName":"Size"},{"ProductID":2936,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2936,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2936,"OptionID":1237,"OptionGroupName":"Style"},{"ProductID":2936,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2935,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":2935,"OptionID":1237,"OptionGroupName":"Style"},{"ProductID":2935,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3437,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":3437,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":3437,"OptionID":802,"OptionGroupName":"Size"},{"ProductID":3259,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":3259,"OptionID":956,"OptionGroupName":"Size"},{"ProductID":3059,"OptionID":7,"OptionGroupName":"Color"},{"ProductID":3059,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":3317,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":3317,"OptionID":1159,"OptionGroupName":"Size"},{"ProductID":3087,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3087,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2596,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2596,"OptionID":1241,"OptionGroupName":"Style"},{"ProductID":2596,"OptionID":836,"OptionGroupName":"Size"},{"ProductID":2600,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2600,"OptionID":1240,"OptionGroupName":"Style"},{"ProductID":2600,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2599,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2599,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2599,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":2597,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2597,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2597,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":2775,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2775,"OptionID":570,"OptionGroupName":"Size"},{"ProductID":2381,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2381,"OptionID":1241,"OptionGroupName":"Style"},{"ProductID":2381,"OptionID":836,"OptionGroupName":"Size"},{"ProductID":3491,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3491,"OptionID":1243,"OptionGroupName":"Style"},{"ProductID":3491,"OptionID":580,"OptionGroupName":"Size"},{"ProductID":3493,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3493,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":3493,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":3494,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3494,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2433,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2433,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2433,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":3463,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":3463,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":3463,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":2774,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":2774,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2774,"OptionID":843,"OptionGroupName":"Size"},{"ProductID":1150,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":1150,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1150,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":1150,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1150,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":1151,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":1151,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1151,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":1151,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":3235,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3235,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3245,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3245,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3245,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3071,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":3071,"OptionID":974,"OptionGroupName":"Size"},{"ProductID":3071,"OptionID":1321,"OptionGroupName":"Size"},{"ProductID":3071,"OptionID":626,"OptionGroupName":"Size"},{"ProductID":3071,"OptionID":974,"OptionGroupName":"Size"},{"ProductID":3080,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":3080,"OptionID":622,"OptionGroupName":"Size"},{"ProductID":3080,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":3080,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3080,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":3080,"OptionID":554,"OptionGroupName":"Size"},{"ProductID":3080,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3080,"OptionID":554,"OptionGroupName":"Size"},{"ProductID":3080,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":3080,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":3080,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":1108,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":1108,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1108,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":1108,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":1108,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1108,"OptionID":554,"OptionGroupName":"Size"},{"ProductID":1108,"OptionID":622,"OptionGroupName":"Size"},{"ProductID":3438,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":3438,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":3438,"OptionID":802,"OptionGroupName":"Size"},{"ProductID":3479,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3479,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":3479,"OptionID":1240,"OptionGroupName":"Style"},{"ProductID":3479,"OptionID":1242,"OptionGroupName":"Style"},{"ProductID":3479,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":1247,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":1247,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":1247,"OptionID":962,"OptionGroupName":"Size"},{"ProductID":1247,"OptionID":824,"OptionGroupName":"Size"},{"ProductID":2358,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":2358,"OptionID":1240,"OptionGroupName":"Style"},{"ProductID":2358,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2441,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":2441,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2441,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":2522,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":2522,"OptionID":1241,"OptionGroupName":"Style"},{"ProductID":2522,"OptionID":836,"OptionGroupName":"Size"},{"ProductID":2756,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":2756,"OptionID":1237,"OptionGroupName":"Style"},{"ProductID":2756,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2891,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":2891,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":2891,"OptionID":802,"OptionGroupName":"Size"},{"ProductID":2893,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":2893,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":2893,"OptionID":802,"OptionGroupName":"Size"},{"ProductID":3246,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3246,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3246,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3233,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3233,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":3233,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3229,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3229,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":3229,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":1193,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":1193,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1193,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1193,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":1193,"OptionID":966,"OptionGroupName":"Size"},{"ProductID":1193,"OptionID":824,"OptionGroupName":"Size"},{"ProductID":1092,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":1147,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":1147,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":1092,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1092,"OptionID":811,"OptionGroupName":"Size"},{"ProductID":1092,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1092,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":1147,"OptionID":578,"OptionGroupName":"Size"},{"ProductID":1147,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":1092,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":1092,"OptionID":953,"OptionGroupName":"Size"},{"ProductID":3081,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":3081,"OptionID":622,"OptionGroupName":"Size"},{"ProductID":3081,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":3081,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3081,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":3081,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3081,"OptionID":554,"OptionGroupName":"Size"},{"ProductID":3081,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":3081,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":3081,"OptionID":622,"OptionGroupName":"Size"},{"ProductID":3081,"OptionID":554,"OptionGroupName":"Size"},{"ProductID":3072,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":3072,"OptionID":974,"OptionGroupName":"Size"},{"ProductID":3072,"OptionID":1321,"OptionGroupName":"Size"},{"ProductID":3072,"OptionID":626,"OptionGroupName":"Size"},{"ProductID":3072,"OptionID":974,"OptionGroupName":"Size"},{"ProductID":1194,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":1194,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1194,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1194,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":1194,"OptionID":824,"OptionGroupName":"Size"},{"ProductID":1194,"OptionID":966,"OptionGroupName":"Size"},{"ProductID":3060,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":3060,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":3319,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":3319,"OptionID":1159,"OptionGroupName":"Size"},{"ProductID":2982,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":2982,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2982,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":3439,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":3439,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":3439,"OptionID":802,"OptionGroupName":"Size"},{"ProductID":2354,"OptionID":7,"OptionGroupName":"Color"},{"ProductID":2354,"OptionID":1241,"OptionGroupName":"Style"},{"ProductID":2354,"OptionID":836,"OptionGroupName":"Size"},{"ProductID":3262,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":3262,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":3262,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3234,"OptionID":7,"OptionGroupName":"Color"},{"ProductID":3234,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":3234,"OptionID":1241,"OptionGroupName":"Style"},{"ProductID":3234,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2374,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":2374,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":2374,"OptionID":1241,"OptionGroupName":"Style"},{"ProductID":2374,"OptionID":836,"OptionGroupName":"Size"},{"ProductID":1113,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":1113,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1113,"OptionID":622,"OptionGroupName":"Size"},{"ProductID":1113,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":1113,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1113,"OptionID":554,"OptionGroupName":"Size"},{"ProductID":1113,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":3464,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3464,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":3464,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":2772,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2772,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":2768,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2768,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2768,"OptionID":843,"OptionGroupName":"Size"},{"ProductID":2971,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2971,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2971,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":3323,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":3323,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3323,"OptionID":622,"OptionGroupName":"Size"},{"ProductID":3323,"OptionID":953,"OptionGroupName":"Size"},{"ProductID":3082,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":3082,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3082,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":3082,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":3082,"OptionID":622,"OptionGroupName":"Size"},{"ProductID":3082,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3082,"OptionID":554,"OptionGroupName":"Size"},{"ProductID":3082,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":3082,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":3082,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":3082,"OptionID":622,"OptionGroupName":"Size"},{"ProductID":3082,"OptionID":554,"OptionGroupName":"Size"},{"ProductID":2896,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":2896,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":2896,"OptionID":802,"OptionGroupName":"Size"},{"ProductID":3476,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3476,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":3476,"OptionID":1242,"OptionGroupName":"Style"},{"ProductID":3476,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2899,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":2899,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":2899,"OptionID":802,"OptionGroupName":"Size"},{"ProductID":3325,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":3325,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":3325,"OptionID":622,"OptionGroupName":"Size"},{"ProductID":3325,"OptionID":953,"OptionGroupName":"Size"},{"ProductID":3122,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3122,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":3122,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3465,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":3465,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":3465,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":2761,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":2761,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2761,"OptionID":843,"OptionGroupName":"Size"},{"ProductID":2427,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":2427,"OptionID":1239,"OptionGroupName":"Style"},{"ProductID":2427,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2426,"OptionID":25,"OptionGroupName":"Color"},{"ProductID":2426,"OptionID":1239,"OptionGroupName":"Style"},{"ProductID":2426,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2955,"OptionID":7,"OptionGroupName":"Color"},{"ProductID":2955,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2955,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":3061,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":3061,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":2991,"OptionID":8,"OptionGroupName":"Color"},{"ProductID":2991,"OptionID":1237,"OptionGroupName":"Style"},{"ProductID":2991,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":1093,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":1093,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1093,"OptionID":811,"OptionGroupName":"Size"},{"ProductID":1093,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":1093,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1093,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1093,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":1093,"OptionID":953,"OptionGroupName":"Size"},{"ProductID":1114,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":1114,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1114,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":1114,"OptionID":622,"OptionGroupName":"Size"},{"ProductID":1114,"OptionID":554,"OptionGroupName":"Size"},{"ProductID":1114,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":1114,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":2980,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":2980,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2980,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":2978,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":2978,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2978,"OptionID":575,"OptionGroupName":"Size"},{"ProductID":2983,"OptionID":25,"OptionGroupName":"Color"},{"ProductID":2983,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":3062,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":1248,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":1248,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":1248,"OptionID":824,"OptionGroupName":"Size"},{"ProductID":1248,"OptionID":962,"OptionGroupName":"Size"},{"ProductID":3062,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":2942,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":2942,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2942,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":3486,"OptionID":25,"OptionGroupName":"Color"},{"ProductID":3486,"OptionID":1239,"OptionGroupName":"Style"},{"ProductID":3486,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3240,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3240,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":3240,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2927,"OptionID":25,"OptionGroupName":"Color"},{"ProductID":2927,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":2927,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3250,"OptionID":7,"OptionGroupName":"Color"},{"ProductID":3250,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3242,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":3242,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":3242,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3227,"OptionID":7,"OptionGroupName":"Color"},{"ProductID":3227,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":3227,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3426,"OptionID":8,"OptionGroupName":"Color"},{"ProductID":3426,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":3426,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":1148,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":1249,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":1249,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":1148,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":1148,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":1148,"OptionID":578,"OptionGroupName":"Size"},{"ProductID":1249,"OptionID":824,"OptionGroupName":"Size"},{"ProductID":1249,"OptionID":962,"OptionGroupName":"Size"},{"ProductID":1148,"OptionID":578,"OptionGroupName":"Size"},{"ProductID":1148,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":1094,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":1094,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1094,"OptionID":811,"OptionGroupName":"Size"},{"ProductID":1094,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1094,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":1094,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":1094,"OptionID":953,"OptionGroupName":"Size"},{"ProductID":2520,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":2520,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":2520,"OptionID":1241,"OptionGroupName":"Style"},{"ProductID":2520,"OptionID":836,"OptionGroupName":"Size"},{"ProductID":1118,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":1118,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1118,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1118,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":1119,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":1119,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1119,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1119,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":2723,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":2723,"OptionID":1241,"OptionGroupName":"Style"},{"ProductID":2723,"OptionID":836,"OptionGroupName":"Size"},{"ProductID":3260,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":3260,"OptionID":956,"OptionGroupName":"Size"},{"ProductID":3428,"OptionID":1326,"OptionGroupName":"Color"},{"ProductID":3428,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":3428,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":3124,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3124,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":3124,"OptionID":1242,"OptionGroupName":"Style"},{"ProductID":3124,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2974,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":2974,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2974,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":2975,"OptionID":6,"OptionGroupName":"Color"},{"ProductID":2975,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":2975,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":2712,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2712,"OptionID":1241,"OptionGroupName":"Style"},{"ProductID":2712,"OptionID":836,"OptionGroupName":"Size"},{"ProductID":2725,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":2725,"OptionID":1237,"OptionGroupName":"Style"},{"ProductID":2725,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3236,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3236,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2948,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2948,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2950,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2950,"OptionID":568,"OptionGroupName":"Size"},{"ProductID":2949,"OptionID":7,"OptionGroupName":"Color"},{"ProductID":2949,"OptionID":568,"OptionGroupName":"Size"},{"ProductID":2947,"OptionID":7,"OptionGroupName":"Color"},{"ProductID":2947,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2424,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":2424,"OptionID":1239,"OptionGroupName":"Style"},{"ProductID":2424,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":2456,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":2456,"OptionID":1327,"OptionGroupName":"Color"},{"ProductID":2456,"OptionID":1241,"OptionGroupName":"Style"},{"ProductID":2456,"OptionID":836,"OptionGroupName":"Size"},{"ProductID":3429,"OptionID":8,"OptionGroupName":"Color"},{"ProductID":3429,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":3429,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":1117,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":1117,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1117,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1117,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":3306,"OptionID":9,"OptionGroupName":"Color"},{"ProductID":3306,"OptionID":956,"OptionGroupName":"Size"},{"ProductID":3300,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3300,"OptionID":1244,"OptionGroupName":"Style"},{"ProductID":3300,"OptionID":576,"OptionGroupName":"Size"},{"ProductID":2357,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":2357,"OptionID":1240,"OptionGroupName":"Style"},{"ProductID":2357,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":3442,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":3442,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":3442,"OptionID":802,"OptionGroupName":"Size"},{"ProductID":1149,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":1095,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":1149,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":1095,"OptionID":951,"OptionGroupName":"Style"},{"ProductID":1095,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1095,"OptionID":811,"OptionGroupName":"Size"},{"ProductID":1095,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":1149,"OptionID":578,"OptionGroupName":"Size"},{"ProductID":1149,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":1149,"OptionID":578,"OptionGroupName":"Size"},{"ProductID":1149,"OptionID":596,"OptionGroupName":"Size"},{"ProductID":1095,"OptionID":841,"OptionGroupName":"Size"},{"ProductID":1095,"OptionID":518,"OptionGroupName":"Size"},{"ProductID":1095,"OptionID":953,"OptionGroupName":"Size"},{"ProductID":3126,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":3126,"OptionID":1238,"OptionGroupName":"Style"},{"ProductID":3126,"OptionID":1240,"OptionGroupName":"Style"},{"ProductID":3126,"OptionID":1242,"OptionGroupName":"Style"},{"ProductID":3126,"OptionID":579,"OptionGroupName":"Size"},{"ProductID":1152,"OptionID":1325,"OptionGroupName":"Color"},{"ProductID":1152,"OptionID":562,"OptionGroupName":"Size"},{"ProductID":1152,"OptionID":847,"OptionGroupName":"Size"},{"ProductID":1152,"OptionID":571,"OptionGroupName":"Size"},{"ProductID":2905,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":2905,"OptionID":787,"OptionGroupName":"Style"},{"ProductID":2905,"OptionID":802,"OptionGroupName":"Size"},{"ProductID":2726,"OptionID":1328,"OptionGroupName":"Color"},{"ProductID":2726,"OptionID":579,"OptionGroupName":"Size"}]';
+                
+                var OptionsList = Options.replace(/[&]quot[;]/gi, '"');
+                
+                var mzOptions = {};
+                mzOptions = {
+                
+                onExpandOpen: function () {
+                MagiczoomLargesizeimages();
+                },
+                onExpandClose: function () {
+                initCanvas();
+                }
+                };
+                
+            </script>
+
+            <script  type="text/javascript" src="{% static 'vsg/js/ckeditor.js' %}"></script>
+            <script defer type="text/javascript" src="{% static 'vsg/js/pinit.js' %}"></script>
+
+        </section>
+
+        <!-- footer -->
+        <footer id="FooterSection" role="contentinfo">
+            <!-- <div class="copper-bar"></div> -->
+        <hr />
+        <div class="footer-bottom">
+            <div class="social-tools-container">
+                <div class="container-wrapper">
+                    <div class="row" style="display: flex;">
+
+                        <!-- Kriosk Logo -->
+                        <div class="col-88 col-sm-4 col-md-4">
+                            <div class="msi-logo">
+                                <a href="{% url 'home' %}"><img class="img-responsive msi-logo" src="{% static 'vsg/images/rang.svg' %}" alt="logo"/></a>
+                            </div>
+                        </div>
+
+                        <!-- Social -->
+                        <div class="col-44 col-sm-8 col-md-8">
+                            <div class="social-tools">
+                                <div class="icon-container"><a class="facebook" href="https://www.facebook.com/rang.decor.9" target="_blank" aria-label="Facebook"></a></div>
+                                <div class="icon-container"><a class="instagram" href="https://www.instagram.com/rangdecor_/" target="_blank" aria-label="Instagram"></a></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright-disclaimer" style="margin-top: 20px;">
+                <div class="container-wrapper">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <ul id="txt-align">
+                                <li id="msirights-text">
+                                    <p class="copyright-text">Rang Decor, All rights reserved © 2020 | Developer by </p><a href="https://krioskcreata.com" target="_blank"><img src="{% static 'vsg/images/kriosk_logo.svg' %}" alt="KrioskCreata" style="width: 65px; margin-left: 12px;"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <script>
+            function setSignUpFormHeight() {
+                var doc = $(window).height(); // document height
+                var head = $(".modal-header").height(); // modal header height
+                var footer = $(".modal-footer").height(); // modal footer height
+                var modheight = doc - head - footer - 170; // 170 is extra margins and it will not effect the height of modal any way if not changed.
+                $('#email-body').css('height', modheight);
+            }
+            function openModal() {
+            
+                if ($('#txtEmail').val().length > 0) {
+                
+                    $('#myModal1').slideDown('slow');
+                    $('#myModal1').addClass('in');
+                    $('<div class="modal-backdrop"></div>').appendTo(document.body);
+                    setSignUpFormHeight();
+                    $('input[name=EMAIL]').val($('#txtEmail').val());
+                    $('#txtEmail').val('');
+                    return false;
+                }
+                else {
+                    alert('Please Enter Email Address');
+                }
+            }
+            function modalclose() {
+                    $(".modal-backdrop").remove();
+                    $("#myModal1").slideUp("fast", function () {
+                            });
+            
+                }
+            
+            
+            
+            
+                $("#mc-embedded-subscribe").on('click', function () {
+                    if ($('input[name = EMAIL]').length > 0) {
+                        
+            
+            
+                        if (!(/^[a-zA-Z0-9_\.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$/.test($("#mce-EMAIL").val()))) {
+            
+            
+                    }
+                    else {
+            
+                        alert("Thank you for subscribing");
+                        modalclose();
+                    }
+            
+            
+            
+                }
+            
+                });
+            
+                $('#txtEmail').on('keypress', function (event) {
+                    if (event.which === 13) {
+                        if ($(this).val().length > 0) {
+                            $('#myModal1').slideDown('slow');
+                    $('#myModal1').addClass('in');
+                    $('<div class="modal-backdrop"></div>').appendTo(document.body);
+                    setSignUpFormHeight();
+                    $('input[name=EMAIL]').val($('#txtEmail').val());
+                    $('#txtEmail').val('');
+                    return false;
+                        }
+                        else {
+                            alert('Please Enter Email Address');
+                        }
+                    }
+                });
+            $(document).ready(function () { 
+                setSignUpFormHeight();
+                setfootertextalign();
+            
+            });
+            window.onresize = function (event) {
+                setSignUpFormHeight();
+                setfootertextalign();
+            };
+            function setfootertextalign() {
+            
+                if ($(window).width() >= 1200) {
+            
+                    $("#msirights-text").removeClass("col-xs-12").addClass("pull-right");
+                    $("#txt-align").removeClass("text-center");
+                }
+                else {
+                    $("#msirights-text").removeClass("pull-right").addClass("col-xs-12");
+                    $("#txt-align").addClass("text-center");
+                }
+            }
+        </script>
+        <script type='text/javascript' src='{% static "vsg/js/mc-validate.js" %}'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[5]='MMERGE5';ftypes[5]='zip';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';fnames[6]='MMERGE6';ftypes[6]='text';fnames[7]='MMERGE7';ftypes[7]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+        <script type="text/javascript" src="{% static 'vsg/js/embed.js' %}" data-dojo-config="usePlainJson: true, isDebug: false"></script>
+        <script type="text/javascript" src="{% static 'vsg/js/rum.js' %}"></script>
+        <script type="text/javascript">rum.start("a6c9128949730a6abb937a0dbbd10b00");</script>
+        <script type="text/javascript" src="{% static 'vsg/js/173033.js' %}"></script>
+        <noscript><img alt="" src="{% static 'vsg/173033.html' %}" style="display:none;" /></noscript>
+        <!--Start of Tawk.to Script-->
+        <script type="text/javascript">
+            var w = window;
+            var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+            (function () {
+                function l() {
+                    var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+                    s1.async = true;
+                    s1.src = 'https://embed.tawk.to/5de665d0d96992700fca8407/default';
+                    s1.charset = 'UTF-8';
+                    s1.setAttribute('crossorigin', '*');
+                    s0.parentNode.insertBefore(s1, s0);
+                }
+                if (w.attachEvent) {
+                    w.attachEvent('onload', l);
+                } else {
+                    w.addEventListener('load', l, false);
+                }
+            })();
+        </script>
+        <!--end-->
+        </footer>
+
+        <link href="{% static 'vsg/css/obec92.css' %}" rel="stylesheet"/>
+
+        <script src="{% static 'vsg/js/obec92.js' %}"></script>
+        <script src="{% static 'vsg/js/jqueryui3024.js' %}"></script>
+        <script src="{% static 'vsg/js/base7581.js' %}"></script>        
+
+        <!-- jquery -->
+        <!-- <script src="{% static 'front/js/jquery-3.3.1.min.js' %}"></script> -->
+        
+        <!-- lazy -->
+        <!-- <script>
+            $(function() {
+                $('.laazy').Lazy();
+            });
+        </script>
+        
+        <script type="text/javascript" src="{% static 'front/js/jquery.lazy.min.js' %}"></script> -->
+    
+    </body>
+
+</html>

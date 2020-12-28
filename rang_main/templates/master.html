@@ -1,0 +1,325 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="author" content="rangdecor.in" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+        <title>{% if page_handler %}{{page_handler.meta_title}}{% elif product %}{{product.meta_title}}{% endif %}</title>
+        <meta name="description" content="{% if page_handler %}{{page_handler.meta_description}}{% elif product %}{{product.meta_description}}{% endif %}">
+
+
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="{% static 'front/images/Bhandari Group-R.png' %}" />
+
+        <!-- font -->
+        <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,500,500i,600,700,800,900|Poppins:200,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900">
+
+        <!-- Plugins -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/css/plugins-css.css' %}" />
+
+        <!-- revoluation -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/revolution/css/settings.css' %}" media="screen" />
+
+        <!-- Typography -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/css/typography.css' %}" />
+
+        <!-- Shortcodes -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/css/shortcodes/shortcodes.css' %}" />
+
+        <!-- Style -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/css/style.css' %}" />
+
+        <!-- interior-design -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/demo-categories/interior-design/css/interior-design.css' %}" /> 
+
+        <!-- Responsive -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/css/responsive.css' %}" /> 
+
+        <!-- Style customizer -->
+        <link rel="stylesheet" type="text/css" href="{% static 'front/css/skins/skin-green-dark.css' %}" data-style="styles"/>
+
+        <!-- lazy -->
+        <script type="text/javascript" src="{% static 'front/js/jquery.lazy.min.js' %}"></script>
+    
+
+        {% block header-files %}
+
+        {% endblock %}
+
+    </head>
+
+    <body>
+
+        {% block modal %}
+
+        {% endblock %}
+
+
+
+        <div class="wrapper">
+
+            <div class="st-pusher">
+
+                <!-- pre loader 05 -->
+                <!--<div id="pre-loader">-->
+                <!--    <img src="images/pre-loader/loader-01.svg" alt="">-->
+                <!--</div>-->
+
+
+                <!-- header -->
+                <header id="header" class="header fancy">
+        
+                    <!--=================================
+                    mega menu -->
+                    <div class="menu">  
+                    <div class="container"> 
+                        <div class="row"> 
+                            <div class="col-lg-12 col-md-12"> 
+                                <!-- menu start -->
+                                <nav id="menu" class="mega-menu">
+                                    <!-- menu list items container -->
+                                    <section class="menu-list-items">
+                                    <!-- menu logo -->
+                                    <ul class="menu-logo">
+                                        <li style="margin-top: 5px;">
+                                            <a href="{% url 'home' %}"><img src="{% static 'front/images/Rang_1.svg' %}" alt="logo" style=""> </a>
+                                        </li>
+                                    </ul>
+                                    <!-- menu links -->
+                                    <div class="menu-bar">
+                                        <ul class="menu-links">
+                                            <li><a href="{% url 'home' %}">Home </a>  </li>
+                                            <li><a href="{% url 'about' %}"> About </a> </li>
+                                            {% for vsg in vsg %}
+                                            {% if vsg.is_show == 'yes' %}
+                                            <li><a href="{% url 'vsg' vsg.area_id %}"> Visualizer </a> </li>
+                                            {% endif %}
+                                            {% endfor %}
+                                            <!-- <li><a href="visual-gallery.html"> Visual Gallery </a> </li> -->
+                                            <li><a style="cursor: pointer;"> Products <i class="fa fa-angle-down fa-indicator"></i> </a> 
+                                                <ul class="drop-down-multilevel left-side">
+                                                    {% for product_head in product_head %}
+                                                        {% if not product_head.is_tab %}
+                                                            <li><a href="{% url 'product' product_head.product_name %}">{{product_head.product_name | capfirst}} Series </a></li>
+                                                        {% else %}
+                                                            <li class="hoverTrigger">
+                                                                <a>{{product_head.product_name | capfirst}} Series
+                                                                    <i class="ti-plus fa-indicator"></i> 
+                                                                    <div class="mobileTriggerButton"></div> 
+                                                                </a>
+                                                                <ul class="drop-down-multilevel effect-expand-top" style="transition: all 400ms ease 0s; display: none;">
+                                                                    <li><a href="{% url 'product_tab' product_head.product_name 'marble' %}">Marble</a></li>
+                                                                    <li><a href="{% url 'product_tab' product_head.product_name 'wooden' %}">Wooden</a></li>
+                                                                    <li><a href="{% url 'product_tab' product_head.product_name 'veneer' %}">Veneers</a></li>
+                                                                    <li><a href="{% url 'product_tab' product_head.product_name 'sparkle' %}">Sparkle</a></li>
+                                                                    <li><a href="{% url 'product_tab' product_head.product_name 'pattern' %}">Patterns</a></li>
+                                                                    <li><a href="{% url 'product_tab' product_head.product_name 'solid_colour' %}">Solid Colours</a></li>
+                                                                </ul>
+                                                            </li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <!-- <li><a href="product-wpc-foarmboard.html">WPC Foarmboard </a> </li> -->
+                                                </ul>
+                                            </li>
+                                            <li class="hoverTrigger" style="cursor: pointer;"><a> Catalogue <i class="fa fa-angle-down fa-indicator"></i> <div class="mobileTriggerButton"></div> </a> 
+                                                <ul class="drop-down-multilevel effect-expand-top" style="transition: all 400ms ease 0s; display: none;">
+                                                    <li><a href="{% url 'catalogue' 'pvc-laminate' %}"> PVC-Laminate </a> </li>
+                                                    <li><a href="{% url 'catalogue' 'charco-charm' %}"> Charco-Charm </a> </li>
+                                                </ul>
+                                            </li>
+                                            <li><a style="cursor: pointer;"> Gallery <i class="fa fa-angle-down fa-indicator"></i> </a> 
+                                                <ul class="drop-down-multilevel left-side">
+                                                    {% if gallery %}
+                                                    {% for gallery in gallery %}
+                                                    <li><a href="{% url 'gallery' gallery.pk %}"> {{gallery.name | capfirst}} Event</a></li>
+                                                    {% endfor %}
+                                                    {% endif %}
+                                                </ul>
+                                            </li>
+                                            <li><a href="{% url 'contact' %}"> Contact us </a> </li>
+                                        </ul>
+                                    </div>
+                                </section>
+                                </nav>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <!-- menu end -->
+                </header>
+
+                    
+                {% block main-block %}
+
+                {% endblock %}
+
+
+                <!-- raindrops (if you want to change the colour of raindrops part then go to custom.js) -->
+                <section id="raindrops" class="raindrops" style="height: 50px;"></section>
+
+                <!-- contact bar -->
+                <section class="contact-box contact-box-top theme-bg">
+                <div class="container">
+                    <div class="row pt-20 pb-40">
+                    <div class="col-md-4 sm-mb-30">
+                        <div class="contact-box">
+                        <div class="contact-icon">
+                            <i class="ti-map text-white"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h5 class="text-white"> 14-1-395, Aghapura Rd</h5>
+                            <span class="text-white">Hyderabad, Telangana - 500001</span>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 sm-mb-30">
+                        <div class="contact-box">
+                        <div class="contact-icon">
+                            <i class="ti-headphone text-white"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h5 class="text-white">+(91) 8297-510-000</h5>
+                            <span class="text-white">Mon-sat 9:30am-6:30pm</span>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="contact-box">
+                        <div class="contact-icon">
+                            <i class="ti-email text-white"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h5 class="text-white">info@rangdecor.in</h5>
+                        <span class="text-white">24 X 7 online support</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </section>
+                
+                <!-- bridge-maps -->
+                <section class="google-map black-bg">
+                <div class="container">
+                    <div class="row">
+                    <div class="col-lg-12">
+                        <div class="map-icon">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="map-open" >
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3807.6172863510947!2d78.46155161487627!3d17.38213938808175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb97bc87405e13%3A0xf27142432da20890!2splywood%20wale%20pvt%20ltd!5e0!3m2!1sen!2sin!4v1597060380098!5m2!1sen!2sin" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                </div>
+                </section>
+
+                <!-- Footer -->
+                <footer class="footer page-section-pt black-bg">
+                    <div class="container">
+                        <ul class="menu-logo" style="margin-left: 20px; list-style: none; display: flex; justify-content: center; margin-top: -20px;">
+                            <li>
+                                <a href="{% url 'home' %}"><img src="{% static 'front/images/Rang-footer.svg' %}" alt="logo" style="height: 60px; margin-right: 60px;"> </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'home' %}"><img src="{% static 'front/images/Bhandari_Group.svg' %}" alt="logo" style="height: 70px;"> </a>
+                            </li>
+                        </ul>
+                        
+                        <div class="footer-widget mt-40">                        
+                            
+                            <div class="row">
+
+                                <div class="col-lg-4 col-md-6 text-left text-md-right">
+                                    <div class="social-icons color-hover mt-10" style="display: flex; justify-content: center;">
+                                        <ul style="margin-top: 10px;"> 
+                                            <li class="social-facebook"><a href="https://www.facebook.com/rang.decor.9" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                            <li class="social-pinterest"><a href="https://in.pinterest.com/rangdecor/boards/" target="_blank"><i class="fa fa-pinterest"></i></a></li>
+                                            <li class="social-instagram"><a href="https://www.instagram.com/rangdecor_/" target="_blank"><i class="fa fa-instagram"></i> </a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-6" >
+
+                                    <ul style="list-style: none; margin-top: 20px;">
+                                        <li><a href="{% url 'policy_terms' %}" style="display: flex; justify-content: center;">Terms & Conditions</a></li>
+                                        <li><a href="{% url 'policy_privacy' %}" style="display: flex; justify-content: center;">Privacy Policy</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-lg-4 col-md-6 text-md-left" >
+                                    <p class="mt-15" style="text-align: center;"> &copy;Copyright <a href="{% url 'home' %}"> Rang </a> All Rights Reserved Developed by <a href="https://krioskcreata.com" target="_blank"><img src="{% static 'front/images/kriosk_logo.svg' %}" alt="Kriosk Creata" style="height: 25px; margin-left: 10px;"></a> </p>
+                                </div>
+
+                            </div>    
+                        </div>
+                    </div>
+                </footer>
+
+            </div>
+
+        </div>
+
+
+        <div id="back-to-top"><a class="top arrow" href="#top"><i class="fa fa-angle-up"></i> <span>TOP</span></a></div>
+        
+        <!--=================================
+        jquery -->
+
+        <!-- jquery -->
+        <script src="{% static 'front/js/jquery-3.3.1.min.js' %}"></script>
+
+        <!-- plugins-jquery -->
+        <script src="{% static 'front/js/plugins-jquery.js' %}"></script>
+
+        <!-- plugin_path -->
+        <script>var plugin_path = 'js/';</script>
+        
+        <!-- REVOLUTION JS FILES -->
+        <script src="{% static 'front/revolution/js/jquery.themepunch.tools.min.js' %}"></script>
+        <script src="{% static 'front/revolution/js/jquery.themepunch.revolution.min.js' %}"></script>
+
+        <!-- SLIDER REVOLUTION 5.0 EXTENSIONS  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->
+        <script src="{% static 'front/revolution/js/extensions/revolution.extension.actions.min.js' %}"></script>
+        <script src="{% static 'front/revolution/js/extensions/revolution.extension.carousel.min.js' %}"></script>
+        <script src="{% static 'front/revolution/js/extensions/revolution.extension.kenburn.min.js' %}"></script>
+        <script src="{% static 'front/revolution/js/extensions/revolution.extension.layeranimation.min.js' %}"></script>
+        <script src="{% static 'front/revolution/js/extensions/revolution.extension.migration.min.js' %}"></script>
+        <script src="{% static 'front/revolution/js/extensions/revolution.extension.navigation.min.js' %}"></script>
+        <script src="{% static 'front/revolution/js/extensions/revolution.extension.parallax.min.js' %}"></script>
+        <script src="{% static 'front/revolution/js/extensions/revolution.extension.slideanims.min.js' %}"></script>
+        <script src="{% static 'front/revolution/js/extensions/revolution.extension.video.min.js' %}"></script>
+        <!-- revolution custom --> 
+        <script src="{% static 'front/revolution/js/revolution-custom.js' %}"></script> 
+
+        <!-- custom -->
+        <script src="{% static 'front/js/custom.js' %}"></script>    
+        
+        <!-- lazy -->
+        <script>
+            $(function() {
+                $('.lazy').Lazy();
+            });
+        </script>
+        
+        <script type="text/javascript" src="{% static 'front/js/jquery.lazy.min.js' %}"></script>
+
+
+
+
+
+        {% block footer-files %}
+
+        {% endblock %}
+
+
+    </body>
+
+</html>

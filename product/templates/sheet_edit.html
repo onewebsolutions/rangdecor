@@ -1,0 +1,137 @@
+{% extends 'master_back.html' %}
+
+{% load static %}
+
+{% block page_content %}
+
+<div class="animated fadeIn">
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <!-- <div class="text-center" style="margin-bottom: 20px;">
+                <a href="#looper"><button class="btn peach-gradient">Loopers</button></a>
+                <a href="#informative"><button class="btn aqua-gradient">Informatives</button></a>
+            </div> -->
+
+            <!-- Sheet Edit -->
+            <div class="card" id="looper">
+                <div class="card-header">
+                    <strong class="card-title">Sheet Edit Page</strong>
+                </div>
+                <div class="card-body">
+
+                    <form action="{% url 'sheet_edit' product_pk sheet.pk %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        {% csrf_token %}
+
+                        {% if sheet %}
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="index" class=" form-control-label">Index * : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="number" id="index" name="index" placeholder="Add Index" class="form-control" value="{{sheet.index}}" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="number" class=" form-control-label">Number * : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="text" id="number" name="number" placeholder="Add Number" class="form-control" value="{{sheet.number}}" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="name" class=" form-control-label">Name : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="text" id="name" name="name" placeholder="Add Name" class="form-control" value="{{sheet.name}}">
+                            </div>
+                        </div>
+                            
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="main_finish" class=" form-control-label">Finish : </label>
+                            </div>
+                            <div class="col col-md-6">
+                                <select name="main_finish" id="main_finish" class="form-control">
+                                    <option value="{{sheet.main_finish}}" selected><b>SELECTED</b> : {% if sheet.main_finish %}{{sheet.main_finish | title }}{% else %}None{% endif %}</option>
+                                    <option value="">None</option>
+                                    <option value="marble">Marble</option>
+                                    <option value="wooden">Wooden</option>
+                                    <option value="veneer">Veneer</option>
+                                    <option value="sparkle">Sparkle</option>
+                                    <option value="pattern">Pattern</option>
+                                    <option value="solid_colour">Solid Colours</option>
+                                </select>
+                                <br>
+                                <p>** △△ Select only if the full-sheet is for Bern Series, leave empty otherwise △△ **</p>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="sub_finish" class=" form-control-label">Sub Finish : </label>
+                            </div>
+                            <div class="col col-md-6">
+                                <select name="sub_finish" id="sub_finish" class="form-control">
+                                    <option value="{{sheet.sub_finish}}" selected><b>SELECTED</b> : {% if sheet.sub_finish %}{{sheet.sub_finish | title }}{% else %}None{% endif %}</option>
+                                    <option value="">None</option>
+                                    <option value="glitter">Glitters</option>
+                                    <option value="matt">Matt</option>
+                                    <option value="soft_touch">Soft Touch</option>
+                                    <option value="glossy">Glossy</option>
+                                </select>
+                                <br>
+                                <p>** △△ Select only if the full-sheet is for Solid Colours Finish, leave empty otherwise △△ **</p>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="main_image" class=" form-control-label">Main Image : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="file" id="main_image" name="main_image" class="form-control-file">
+                                {% if sheet.main_image %}
+                                    <p><b>Selected : </b>{{sheet.main_image.url}}</p>
+                                    <a href="{% if sheet.main_image %} {{sheet.main_image.url}} {% endif %}" class="js-img-viewer-fit" data-caption="Rang Decor" data-id="lion" target="_blank">
+                                        <img src="{% if sheet.main_image %} {{sheet.main_image.url}} {% endif %}" alt="" style="width: 70px;">
+                                    </a>
+                                {% else %}
+                                    <p><b>Selected : </b>None</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <br>
+                        <p>All * marked fields implies that it is required and can not be left empty</p>
+
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col col-md-2">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-pencil"></i> Update</button>
+                            </div>
+                        </div>
+
+                        {% endif %}
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock %}

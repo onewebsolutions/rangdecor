@@ -1,0 +1,193 @@
+{% extends 'master_back.html' %}
+
+{% load static %}
+
+{% block page_content %}
+
+
+<div class="animated fadeIn">
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <!-- <div class="text-center" style="margin-bottom: 20px;">
+                <a href="#looper"><button class="btn peach-gradient">Loopers</button></a>
+                <a href="#informative"><button class="btn aqua-gradient">Informatives</button></a>
+            </div> -->
+
+            <!-- Looper Component -->
+            <div class="card" id="looper">
+                <div class="card-header">
+                    <strong class="card-title">Product Update Page</strong>
+                </div>
+                <div class="card-body">
+
+                    <form action="{% url 'product_edit' product.pk %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        {% csrf_token %}
+
+                        {% if product %}
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="index" class=" form-control-label">Index * : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="text" id="index" name="index" placeholder="Add Product Index" class="form-control" value="{{product.index}}" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="meta_title" class=" form-control-label">Meta Title : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="text" id="meta_title" name="meta_title" placeholder="Add Meta Title" class="form-control" value="{{product.meta_title}}">
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="meta_description" class=" form-control-label">Meta Description : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <textarea id="meta_description" name="meta_description" rows="3" placeholder="Add Meta Description" class="form-control">{{product.meta_description}}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="product_name" class=" form-control-label">Product Name * : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="text" id="product_name" name="product_name" placeholder="Add Product Name" class="form-control" value="{{product.product_name}}" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="title" class=" form-control-label">Title : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="text" id="title" name="title" placeholder="Add Title" class="form-control" value="{{product.title}}">
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="intro" class=" form-control-label">Introduction : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <textarea name="intro" id="intro" cols="30" rows="5"  class="form-control" placeholder="Add Intro">{{product.intro}}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="detail" class=" form-control-label">Details : </label>
+                            </div>
+                            <div class="col col-md-7">
+                                <textarea name="detail" id="detail" cols="30" rows="5"  class="form-control" placeholder="Add Detail">{{product.detail}}</textarea>
+                            </div>
+                            <script>
+                                CKEDITOR.replace( 'detail' );
+                            </script>
+                        </div>
+
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="main_image" class=" form-control-label">Main Image : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="file" id="main_image" name="main_image" class="form-control-file">
+                                {% if product.main_image %}
+                                    <p><b>Selected : </b>{{product.main_image.url}}</p>
+                                    <a href="{% if product.main_image %} {{product.main_image.url}} {% endif %}" class="js-img-viewer-fit" data-caption="Rang Decor" data-id="lion">
+                                        <img src="{% if product.main_image %} {{product.main_image.url}} {% endif %}" alt="" style="height: 70px;">
+                                    </a>
+                                    {% if product.main_image %}
+                                        <a href="{% url 'remove_image' product.pk %}"><button type="button" class="btn btn-danger btn-sm">Remove &nbsp;<i class="fa fa-times"></i></button></a>
+                                    {% endif %}
+                                {% else %}
+                                    <p><b>Selected : </b>None</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <br>
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="is_vsg" class=" form-control-label">List on VSG : </label>
+                            </div>
+                            <div class="col col-md-1">
+                                {% if product.is_vsg == 'yes' %}
+                                <input type="checkbox" class="form-control-file" id="is_vsg" name="is_vsg" value="yes" checked>
+                                {% else %}
+                                <input type="checkbox" class="form-control-file" id="is_vsg" name="is_vsg" value="yes">
+                                {% endif %}
+                            </div>
+                            [* Select if you want this product to be listed on Visual Gallery *]
+                        </div>
+
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="is_paginate" class=" form-control-label">Enable Pagination : </label>
+                            </div>
+                            <div class="col col-md-1">
+                                {% if product.is_paginate == 'yes' %}
+                                <input type="checkbox" class="form-control-file" id="is_paginate" name="is_paginate" value="yes" checked>
+                                {% else %}
+                                <input type="checkbox" class="form-control-file" id="is_paginate" name="is_paginate" value="yes">
+                                {% endif %}
+                            </div>
+                            [* Select if you want pagination on this product *]
+                        </div>
+
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="is_tab" class=" form-control-label">Has Tab View : </label>
+                            </div>
+                            <div class="col col-md-1">
+                                {% if product.is_tab == 'yes' %}
+                                <input type="checkbox" class="form-control-file" id="is_tab" name="is_tab" value="yes" checked>
+                                {% else %}
+                                <input type="checkbox" class="form-control-file" id="is_tab" name="is_tab" value="yes">
+                                {% endif %}
+                            </div>
+                            [* Select if you want pagination on this product *]
+                        </div>
+
+                        <br>
+
+                        <br>
+                        <p>All * marked fields implies that it is required and can not be left empty</p>
+
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col col-md-2">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-pencil"></i> Update</button>
+                            </div>
+                        </div>
+
+                        {% endif %}
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock %}

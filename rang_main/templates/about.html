@@ -1,0 +1,235 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+
+    {% block header-files %}
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="HTML5 Template" />
+    <meta name="author" content="potenzaglobalsolutions.com" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>{{page_handler.meta_title}}</title>
+    <meta name="description" content="{{page_handler.meta_description}}" />
+
+    {% endblock %}
+
+
+    {% block main-block %}
+
+        <!-- banner-slider -->
+        <section class="rev-slider">
+            <div id="rev_slider_274_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="rang decor-slider-8" data-source="gallery" style="margin:0px auto;background:transparent;padding:0px;margin-top:0px;margin-bottom:0px;">
+          <!-- START REVOLUTION SLIDER 5.4.6.3 auto mode -->
+            <div id="rev_slider_274_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.6.3">
+          <ul>  <!-- SLIDE  -->
+              <li data-index="rs-768" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300"  data-rotate="0"  data-saveperformance="off"  data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+              <!-- MAIN IMAGE -->
+                  <img src="{% if is1.main_image %}{{is1.main_image.url}}{% endif %}"  alt=""  data-bgposition="center center" data-bgfit="cover" class="rev-slidebg" data-no-retina>
+              <!-- LAYERS -->
+          
+              <!-- BACKGROUND VIDEO LAYER -->
+              </li>
+          </ul>
+          <div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div> </div>
+          </div>      
+        </section>
+
+
+        <!-- who are we and what do we do -->
+        <section class="page-section-ptb">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-lg-6" style="margin-top: 40px;"> 
+                        <div class="our-products-side-image">
+                            <img class="lazy" src="{% static 'front/images/loading.svg' %}" data-src="{% if is2.main_image %}{{is2.main_image.url}}{% endif %}" alt="" style="width: 90%;">
+                        </div>
+                    </div>
+                    {% if is2 %}
+                    <div class="col-lg-6 sm-mt-30" style="margin-top: 30px;">
+                        <div class="section-title">
+                          <h6 style="color: #02B28C;">{{is2.title}}</h6>
+                          <h2 class="title-effect">{{is2.intro}}</h2>
+                        </div> 
+
+                        <!-- Use this to highlight the text withing the para -->
+                        <!-- <span class="theme-color" data-toggle="tooltip" data-placement="top" title="" data-original-title="HTML5 template">rang decor</span> -->
+
+                        <p style="margin-top: -10px;">
+                          {{is2.detail | safe}}
+                        </p>
+
+                    </div>
+                    {% endif %}  
+                </div>
+                <div class="row">
+                  {% if lc1 %}
+                  {% for lc1 in lc1 %}
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="feature-text left-icon mt-50 xs-mt-20">
+                            <div class="feature-icon">
+                                <span class="fa {{lc1.intro}} theme-color" aria-hidden="true"></span>
+                            </div>              
+                            <div class="feature-info">
+                                <h5 class="text-back">{{lc1.title}}</h5>
+                                <p>{{lc1.detail | safe}}</p>
+                            </div>
+                        </div>
+                    </div>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- values that drives us -->
+        <!-- <section class="page-section-ptb pos-r bg-overlay-black-70 parallax" data-jarallax='{"speed": 0.6}'>
+          <div class="container">
+               <div class="row">
+                <div class="col-lg-12 col-md-12">
+                  <div class="section-title text-center">
+                     <h2 class="text-white title-effect" style="color: #65B657;">Our visionaries</h2>
+                   </div>
+                </div> 
+            </div>
+              <div class="row">
+               <div class="col-lg-12 col-md-12">
+               <div class="testimonial-center">
+                 <div class="owl-carousel bottom-nav" data-nav-arrow="true" data-items="1" data-lg-items="1" data-md-items="1" data-sm-items="1" data-xs-items="1" data-xx-items="1">
+                  <div class="item"><div class="testimonial text-white clean">
+                     <div class="testimonial-avatar"> <img alt="" src="images/team/01.jpg"> </div>
+                     <div class="testimonial-info">Creativity is useless if we cannot deliver something that could be evergreen. We aspire to produce designs which are relevant to the present and to the future! </div>
+                     <div class="author-info"> <strong>Person-1</strong> </div>
+                 </div>
+                 </div>
+                 <div class="item">
+                  <div class="testimonial text-white clean">
+                     <div class="testimonial-avatar"> <img alt="" src="images/team/02.jpg"> </div>
+                     <div class="testimonial-info"> Sustainability in products is tested when its used carelessly. We produce strong and sustainable products which are very easy to maintain.</div>
+                     <div class="author-info"> <strong>Person-2</strong> </div>
+                 </div>
+                 </div>
+                 <div class="item">
+                  <div class="testimonial text-white clean">
+                     <div class="testimonial-avatar"> <img alt="" src="images/team/03.jpg"> </div>
+                      <div class="testimonial-info"> We are social animals, and are bound by the surrounding we live within. Rang understands the human need to prosper and its need to socialize. We stand with society and promise to make it better by pioneering change! </div>
+                     <div class="author-info"> <strong>Person-3</strong> </div>
+                   </div>
+                  </div>
+               </div>  
+              </div>
+             </div>
+            </div>
+           </div>
+          </section>      -->
+        
+
+        <!-- our products -->
+        <section class="our-activities gray-bg page-section-ptb" style="margin-top: 50px;">
+            <div class="container">
+              
+              <div class="section-title" style="text-align: center; margin-top: -40px; margin-bottom: 70px;">
+                <h2 class="title-effect" style="color: #02B28C;">Our Products</h2>
+              </div> 
+                <div class="row">
+
+                    <div class="col-lg-7">
+                        <div class="who-we-are-left">
+                            <div class="owl-carousel" data-nav-dots="true" data-items="1" data-md-items="1" data-sm-items="1" data-xs-items="1" data-xx-items="1">
+                                {% if lc2 %}
+                                {% for lc2 in lc2 %}
+                                  <div class="item">
+                                      <img class="img-fluid full-width" src="{% if lc2.main_image %}{{lc2.main_image.url}}{% endif %}" alt="">
+                                  </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5" > 
+                        <div class="accordion plus-icon shadow">
+                            {% if lc2 %}
+                            {% for lc2 in lc2 %}
+                            <div class="acd-group acd-active">
+                                <a href="#" class="acd-heading acd-active">{{lc2.title}}</a>
+                                <div class="acd-des">
+                                    {{lc2.detail | safe}}
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>      
+                </div>
+            </div>
+        </section>
+        
+
+        <!-- product features -->
+        <section class="about page-section-ptb">
+          <div class="container">
+            <div class="row justify-content-center">
+               <div class="col-lg-8 col-md-8">
+               <div class="section-title text-center">
+                  <div class="section-title" style="text-align: center; margin-top: -40px; margin-bottom: 70px;">
+                    <h2 class="title-effect" style="color: #02B28C;">Features</h2>
+                  </div> 
+                  </div>
+              </div>
+            </div>
+                <div class="row">
+                    {% if lc3 %}
+                    {% for lc3 in lc3 %}
+                        <div class="col-6 col-lg-4 col-md-4 col-sm-4" style="margin-top: 40px;">
+                          <div class="feature-text round theme-icon text-center xs-mb-30">
+                            <div class="feature-icon">
+                              <span aria-hidden="true" class="fa {{lc3.intro}} theme-color"></span>
+                            </div>
+                              <div class="feature-info">
+                              <h4 class="pb-10">{{lc3.title}}</h4>
+                            </div>
+                        </div> 
+                        </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+
+        <!-- applications -->
+        <section class="business-big-testimonial white-bg page-section-ptb">
+          <div class="container" >
+             <div class="row justify-content-center">
+              <div class="section-title" style="text-align: center; margin-top: -40px; margin-bottom: 70px;">
+                <h2 class="title-effect" style="color: #02B28C;">Applications</h2>
+              </div> 
+             </div>
+              <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <div class="owl-carousel" data-nav-dots="true" data-items="1" data-lg-items="1" data-md-items="1" data-sm-items="1" data-xs-items="1">
+                        {% if lc4 %}
+                        {% for lc4 in lc4 %}
+                          <div class="item">
+                              <div class="testimonial clean">
+                                  <div class="testimonial-info shadow"><img src="{% if lc4.main_image %}{{lc4.main_image.url}}{% endif %}" alt=""></div>
+                                  <div class="author-info"> <strong>{{lc4.title}}</strong> </div>
+                              </div>
+                          </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+              </div>
+          </div>
+        </section>
+
+
+
+    {% endblock %}
+    
+    

@@ -1,0 +1,341 @@
+{% extends 'master_back.html' %}
+
+{% load static %}
+
+{% block headblock %}
+
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}">
+
+    <!-- image viewer -->
+    <script src="{% static 'back/assets/js/EZView.js' %}"></script>
+    <script src="{% static 'back/assets/js/draggable.js' %}"></script>
+
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'back/vendors/mdb/mdb.min.css' %}" rel="stylesheet">
+
+    <!-- smart photo -->
+    <link href="{% static 'back/vendors/smart-photo/smartphoto.min.css' %}" rel="stylesheet">
+
+    <!-- bootstrap for tags -->
+    <style>
+        .bootstrap-tagsinput {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            display: block;
+            padding: 4px 6px;
+            color: #555;
+            vertical-align: middle;
+            border-radius: 4px;
+            max-width: 100%;
+            line-height: 22px;
+            cursor: text;
+        }
+        .bootstrap-tagsinput input {
+            border: none;
+            box-shadow: none;
+            outline: none;
+            background-color: transparent;
+            padding: 0 6px;
+            margin: 0;
+            width: auto;
+            max-width: inherit;
+        }
+        .bootstrap-tagsinput .tag {
+            background: gray;
+            border: 1px solid;
+            padding: 0 6px;
+            margin-right: 2px;
+            color: white;
+            border-radius: 4px;
+            }
+    </style>
+
+{% endblock %}
+
+{% block page_content %}
+
+    <div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <!-- <div class="text-center" style="margin-bottom: 20px;">
+                    <a href="#looper"><button class="btn peach-gradient">Loopers</button></a>
+                    <a href="#informative"><button class="btn aqua-gradient">Informatives</button></a>
+                </div> -->
+
+                <!-- Looper Component -->
+                <div class="card" id="looper">
+                    <div class="card-header">
+                        <strong class="card-title">Informative Component List</strong>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 30px;">
+                                    <strong>Success!</strong> {{message}}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+
+                        <table id="bootstrap-data-table-export" class="dataa-table table table-striped table-bordered">
+
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Index</th>
+                                    <th class="text-center">Product Name</th>
+                                    <th class="text-center">Main Image</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% if product %}
+                                {% for product in product %}
+                                <tr>
+                                    <td class="text-center">
+                                        {{product.index}}
+                                    </td>
+
+                                    <td class="text-center">
+                                        {{product.product_name}}
+                                    </td>
+
+                                    <td class="text-center">
+                                        <a href="{% if product.main_image %} {{product.main_image.url}} {% endif %}" class="js-img-viewer-fit" data-caption="Rang Decor" data-id="lion">
+                                            <img src="{% if product.main_image %} {{product.main_image.url}} {% endif %}" alt="" style="height: 50px;">
+                                        </a>
+                                    </td>
+
+                                    <!-- style="pointer-events: none; cursor: default;" -->
+
+                                    <td class="text-center">
+                                        <a href="{% url 'product_edit' product.pk %}"><button type="button" class="btn btn-info btn-sm"><i class="fa fa-pencil"></i> Edit</button></a>
+                                        <a href="#"><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#product_{{product.pk}}">Del<i class="fa fa-times"></i></button></a>
+                                        <a href="{% url 'sheet_back' product.pk %}"><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-paperclip"></i> Add Fullsheet</button></a>
+                                        <!-- <a href="#" target="_blank"><button type="button" class="btn btn-warning">View  <i class="fa fa-eye"></i></button></a> -->
+                                    
+                                        <!-- Delete Confirm -->
+                                        <div class="modal fade bottom" id="product_{{product.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-frame modal-bottom" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="row d-flex justify-content-center align-items-center">
+  
+                                                            <p class="pt-3 pr-2">
+                                                            This action will delete the Product <b>"{{product.product_name}}"</b> completely and it is
+                                                            irreparable by nature. Once it is gone it is gone !
+                                                            </p>
+  
+                                                            <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Close</button>
+                                                            <a href="{% url 'product_delete' product.pk %}"><button type="button" class="btn btn-dark"><b>Delete</b></button></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+
+                        </table>
+
+                        <hr>
+                        <br><br><br>
+
+                        <form action="{% url 'product_add' %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            {% csrf_token %}
+
+                            <h3>[ Add Product ] </h3> <br><br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="index" class=" form-control-label">Index * : </label>
+                                </div>
+                                <div class="col col-md-2">
+                                    <input type="text" id="index" name="index" placeholder="Add Product Index" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="product_name" class=" form-control-label">Product Name * : </label>
+                                </div>
+                                <div class="col col-md-7">
+                                    <input type="text" id="product_name" name="product_name" placeholder="Add Product Name" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="title" class=" form-control-label">Title : </label>
+                                </div>
+                                <div class="col col-md-7">
+                                    <input type="text" id="title" name="title" placeholder="Add Title" class="form-control">
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="intro" class=" form-control-label">Introduction : </label>
+                                </div>
+                                <div class="col col-md-7">
+                                    <textarea name="intro" id="intro" cols="30" rows="5"  class="form-control" placeholder="Add Intro"></textarea>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="detail" class=" form-control-label">Details : </label>
+                                </div>
+                                <div class="col col-md-7">
+                                    <textarea name="detail" id="detail" cols="30" rows="5"  class="form-control" placeholder="Add Detail"></textarea>
+                                </div>
+                                <script>
+                                    CKEDITOR.replace( 'detail' );
+                                </script>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="main_image" class=" form-control-label">Main Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="main_image" name="main_image" class="form-control-file">
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="is_vsg" class=" form-control-label">List on VSG : </label>
+                                </div>
+                                <div class="col col-md-1">
+                                    <input type="checkbox" class="form-control-file" id="is_vsg" name="is_vsg" value="yes">
+                                </div>
+                                [* Select if you want this product to be listed on Visual Gallery *]
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="is_paginate" class=" form-control-label">Paginatation  : </label>
+                                </div>
+                                <div class="col col-md-1">
+                                    <input type="checkbox" class="form-control-file" id="is_paginate" name="is_paginate" value="yes">
+                                </div>
+                                [* Select if you want pagination on this product *]
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="is_tab" class=" form-control-label">Tab VIew  : </label>
+                                </div>
+                                <div class="col col-md-1">
+                                    <input type="checkbox" class="form-control-file" id="is_tab" name="is_tab" value="yes">
+                                </div>
+                                [* Select if product has tabs view *]
+                            </div>
+
+                            <br>
+                            
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="meta_title" class=" form-control-label">Meta Title : </label>
+                                </div>
+                                <div class="col col-md-7">
+                                    <input type="text" id="meta_title" name="meta_title" placeholder="Add Meta Title" class="form-control">
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="meta_description" class=" form-control-label">Meta Description : </label>
+                                </div>
+                                <div class="col col-md-7">
+                                    <textarea id="meta_description" name="meta_description" rows="3" placeholder="Add Meta Description" class="form-control"></textarea>
+                                </div>
+                            </div>
+
+                            <br>
+                            <p>All * marked fields implies that it is required and can not be left empty</p>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Add</button>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footerblock %}
+
+<script src="{% static 'back/vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'back/assets/js/init-scripts/data-table/datatables-init.js' %}"></script>
+
+<!-- for tags -->
+<script src="{% static 'back/assets/js/bootstrap-tagsinput.js' %}"></script>
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'back/vendors/mdb/mdb.min.js' %}"></script>
+
+<!-- smart photo -->
+<script src="{% static 'back/vendors/smart-photo/smartphoto.js' %}"></script>
+
+<!-- <script>
+    $('.gallery1').EZView();
+    $('.gallery2').EZView();
+</script> -->
+
+<script>
+	window.addEventListener('load',function(){
+		new SmartPhoto(".js-img-viewer");
+        new SmartPhoto(".js-img-viewer-fit");
+	});
+</script>
+
+{% endblock %}

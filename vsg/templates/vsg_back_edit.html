@@ -1,0 +1,223 @@
+{% extends 'master_back.html' %}
+
+{% load static %}
+
+{% block headblock %}
+
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}">
+
+    <!-- image viewer -->
+    <script src="{% static 'back/assets/js/EZView.js' %}"></script>
+    <script src="{% static 'back/assets/js/draggable.js' %}"></script>
+
+
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'bank/vendors/mdb/mdb.min.css' %}" rel="stylesheet">
+
+    <!-- smart photo -->
+    <link href="{% static 'back/vendors/smart-photo/smartphoto.min.css' %}" rel="stylesheet">
+
+    <!-- bootstrap for tags -->
+    <style>
+        .bootstrap-tagsinput {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            display: block;
+            padding: 4px 6px;
+            color: #555;
+            vertical-align: middle;
+            border-radius: 4px;
+            max-width: 100%;
+            line-height: 22px;
+            cursor: text;
+        }
+        .bootstrap-tagsinput input {
+            border: none;
+            box-shadow: none;
+            outline: none;
+            background-color: transparent;
+            padding: 0 6px;
+            margin: 0;
+            width: auto;
+            max-width: inherit;
+        }
+        .bootstrap-tagsinput .tag {
+            background: gray;
+            border: 1px solid;
+            padding: 0 6px;
+            margin-right: 2px;
+            color: white;
+            border-radius: 4px;
+            }
+    </style>
+
+
+{% endblock %}
+
+{% block page_content %}
+
+    <div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <!-- Informative -->
+                <div class="card" id="looper">
+                    <div class="card-header">
+                        <strong class="card-title">VSG Edit</strong>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 30px;">
+                                    <strong>Success!</strong> {{message}}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+
+                        {% if vsg %}
+                        <form action="{% url 'vsg_back_edit' vsg.pk %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            {% csrf_token %}
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="index" class=" form-control-label">Index * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="index" name="index" placeholder="Add Index" class="form-control" value="{{vsg.index}}" required>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="area" class=" form-control-label">Area Name * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="area" name="area" placeholder="Add Area Name" class="form-control" value="{{vsg.area}}" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="area_id" class=" form-control-label">Area Name ID * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="area_id" name="area_id" placeholder="Add Area Name ID" class="form-control" value="{{vsg.area_id}}" required>
+                                    <p>** This should be unique, small case, no spaces, connected by hyphen or underscore **</p>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="main_image" class=" form-control-label">Main Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="main_image" name="main_image" class="form-control-file">
+                                    {% if vsg.main_image %}
+                                        <p><b>Selected : </b>{{vsg.main_image.url}}</p>
+                                        <a href="{% if vsg.main_image %}{{vsg.main_image.url}}{% endif %}" class="js-img-viewer-fit" data-caption="Rang Decor" data-id="lion">
+                                            <img src="{% if vsg.main_image %}{{vsg.main_image.url}}{% endif %}" alt="" style="height: 70px;">
+                                        </a>
+                                    {% else %}
+                                        <p><b>Selected : </b>None</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="is_show" class=" form-control-label">Show in Menu : </label>
+                                </div>
+                                <div class="col col-md-1">
+                                    {% if vsg.is_show == 'yes' %}
+                                    <input type="checkbox" class="form-control-file" id="is_show" name="is_show" value="yes" checked>
+                                    {% else %}
+                                    <input type="checkbox" class="form-control-file" id="is_show" name="is_show" value="yes">
+                                    {% endif %}
+                                </div>
+                                [* Select if you want pagination on this product *]
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="meta_title" class=" form-control-label">Meta Title : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="meta_title" name="meta_title" placeholder="Meta Title" class="form-control" value="{{vsg.meta_title}}">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="meta_description" class=" form-control-label">Area Meta Description : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <textarea name="meta_description" id="meta_description" cols="30" rows="5"  class="form-control" placeholder="Add Meta Description">{{vsg.meta_description}}</textarea>
+                                </div>
+                            </div>
+
+
+
+                            <br>
+                            <p>All * marked fields implies that it is required and can not be left empty.</p>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-pencil"></i> &nbsp; Update</button>
+                                </div>
+                            </div>
+
+                        </form>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footerblock %}
+
+<script src="{% static 'back/vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'back/assets/js/init-scripts/data-table/datatables-init.js' %}"></script>
+
+<!-- for tags -->
+<script src="{% static 'back/assets/js/bootstrap-tagsinput.js' %}"></script>
+
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'back/vendors/mdb/mdb.min.js' %}"></script>
+
+
+<!-- smart photo -->
+<script src="{% static 'back/vendors/smart-photo/smartphoto.js' %}"></script>
+
+
+<script>
+	window.addEventListener('load',function(){
+		new SmartPhoto(".js-img-viewer");
+        new SmartPhoto(".js-img-viewer-fit");
+	});
+</script>
+
+{% endblock %}

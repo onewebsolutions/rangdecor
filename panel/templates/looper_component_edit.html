@@ -1,0 +1,262 @@
+{% extends 'master_back.html' %}
+
+{% load static %}
+
+{% block headblock %}
+
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}">
+
+    <!-- image viewer -->
+    <script src="{% static 'back/assets/js/EZView.js' %}"></script>
+    <script src="{% static 'back/assets/js/draggable.js' %}"></script>
+
+    
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'back/vendors/mdb/mdb.min.css' %}" rel="stylesheet">
+
+    <!-- bootstrap for tags -->
+    <style>
+        .bootstrap-tagsinput {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            display: block;
+            padding: 4px 6px;
+            color: #555;
+            vertical-align: middle;
+            border-radius: 4px;
+            max-width: 100%;
+            line-height: 22px;
+            cursor: text;
+        }
+        .bootstrap-tagsinput input {
+            border: none;
+            box-shadow: none;
+            outline: none;
+            background-color: transparent;
+            padding: 0 6px;
+            margin: 0;
+            width: auto;
+            max-width: inherit;
+        }
+        .bootstrap-tagsinput .tag {
+            background: gray;
+            border: 1px solid;
+            padding: 0 6px;
+            margin-right: 2px;
+            color: white;
+            border-radius: 4px;
+            }
+    </style>
+    
+
+{% endblock %}
+
+{% block page_content %}
+
+    <div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <!-- Looper -->
+                <div class="card" id="looper">
+                    <div class="card-header">
+                        <strong class="card-title">Looper Component</strong>
+                    </div>
+                    <div class="card-body"> 
+                        <form action="{% url 'looper_component_edit' looper_section.name looper_component.pk  %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            {% csrf_token %}
+
+                            {% if looper_component != None %}   
+
+                            <h3>[ Edit Looper Component ] </h3> <br><br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="index" class=" form-control-label">Index : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="index" name="index" placeholder="Add Index" class="form-control" value="{{looper_component.index}}">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="section_name" class=" form-control-label">Section Name : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <select name="section_name" id="section_name" class="form-control" required>
+                                        <option value="{{looper_section.name}}">{{looper_section.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="name" class=" form-control-label">Component Name : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="name" name="name" placeholder="Add Component Name" class="form-control" value="{{looper_component.name}}">
+                                </div>
+                            </div>
+
+                            <hr>
+                            <h6 class="text-center" style="color: grey;">page content from now on</h6>
+                            <hr>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="title" class=" form-control-label">Section Title : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="title" name="title" placeholder="Add Title" class="form-control" value="{{looper_component.title}}">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="intro" class=" form-control-label">Section Introduction : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <textarea name="intro" id="intro" cols="30" rows="5"  class="form-control" placeholder="Add Section Intro">{{looper_component.intro}}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="detail" class=" form-control-label">Section Details : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <textarea name="detail" id="detail" cols="30" rows="5"  class="form-control" placeholder="Add Section Detail">{{looper_component.detail}}</textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="main_image" class=" form-control-label">LC Main Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="main_image" name="main_image" class="form-control-file">
+                                    {% if looper_component.main_image %}
+                                    <p><b>Selected : </b>{{looper_component.main_image.url}}</p>
+                                    <img src="{{looper_component.main_image.url}}" alt="LC Main image" style="height: 70px;">
+                                    <a href="{% url 'remove_image_looper_component' loop_comp_pk=looper_component.pk img_path=looper_component.main_image img_name='main_image' %}"><button type="button" class="btn btn-danger btn-sm">Remove &nbsp;<i class="fa fa-times"></i></button></a>
+                                    {% else %}
+                                    <p><b>Selected : </b>None</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="second_image" class=" form-control-label">LC Second Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="second_image" name="second_image" class="form-control-file">
+                                    {% if looper_component.second_image %}
+                                    <p><b>Selected : </b>{{looper_component.second_image.url}}</p>
+                                    <img src="{{looper_component.second_image.url}}" alt="LC Second image" style="height: 70px;">
+                                    <a href="{% url 'remove_image_looper_component' loop_comp_pk=looper_component.pk img_path=looper_component.second_image img_name='second_image' %}"><button type="button" class="btn btn-danger btn-sm">Remove &nbsp;<i class="fa fa-times"></i></button></a>
+                                    {% else %}
+                                    <p><b>Selected : </b>None</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="third_image" class=" form-control-label">LC Third Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="third_image" name="third_image" class="form-control-file">
+                                    {% if looper_component.third_image %}
+                                    <p><b>Selected : </b>{{looper_component.third_image.url}}</p>
+                                    <img src="{{looper_component.third_image.url}}" alt="LC Third image" style="height: 70px;">
+                                    <a href="{% url 'remove_image_looper_component' loop_comp_pk=looper_component.pk img_path=looper_component.third_image img_name='third_image' %}"><button type="button" class="btn btn-danger btn-sm">Remove &nbsp;<i class="fa fa-times"></i></button></a>
+                                    {% else %}
+                                    <p><b>Selected : </b>None</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="bg_image" class=" form-control-label">LC Background Image : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="bg_image" name="bg_image" class="form-control-file">
+                                    {% if looper_component.bg_image %}
+                                    <p><b>Selected : </b>{{looper_component.bg_image.url}}</p>
+                                    <img src="{{looper_component.bg_image.url}}" alt="LC Third image" style="height: 70px;">
+                                    <a href="{% url 'remove_image_looper_component' loop_comp_pk=looper_component.pk img_path=looper_component.bg_image img_name='bg_image' %}"><button type="button" class="btn btn-danger btn-sm">Remove &nbsp;<i class="fa fa-times"></i></button></a>
+                                    {% else %}
+                                    <p><b>Selected : </b>None</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="side" class=" form-control-label">Image Side : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <select name="side" id="side" class="form-control">
+                                        <option value="{{looper_component.side}}" selected>Selected : {% if looper_component.side %}{{looper_component.side | capfirst}}{% else %}None{% endif %}</option>
+                                        <option value="">None</option>
+                                        <option value="left">Left</option>
+                                        <option value="right">Right</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col col-md-1"></div>
+                                <div class="col col-md-2">
+                                    <button type="submit" class="btn btn-primary">Update &nbsp; <i class="fa fa-pencil"></i></button>
+                                </div>
+                            </div>
+
+                            {% endif %}
+
+                        </form>
+
+                    </div>
+                </div>
+                
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footerblock %}
+
+<script src="{% static 'back/vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'back/assets/js/init-scripts/data-table/datatables-init.js' %}"></script>
+
+<!-- for tags -->
+<script src="{% static 'back/assets/js/bootstrap-tagsinput.js' %}"></script>
+
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'back/vendors/mdb/mdb.min.js' %}"></script>
+
+<script>
+    $('.gallery1').EZView();
+    $('.gallery2').EZView();
+</script>
+
+{% endblock %}

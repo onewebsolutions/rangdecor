@@ -1,0 +1,256 @@
+{% extends 'master_back.html' %}
+
+{% load static %}
+
+{% block headblock %}
+
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'back/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}">
+
+    <!-- image viewer -->
+    <script src="{% static 'back/assets/js/EZView.js' %}"></script>
+    <script src="{% static 'back/assets/js/draggable.js' %}"></script>
+
+    
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'back/vendors/mdb/mdb.min.css' %}" rel="stylesheet">
+
+    <!-- bootstrap for tags -->
+    <style>
+        .bootstrap-tagsinput {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            display: block;
+            padding: 4px 6px;
+            color: #555;
+            vertical-align: middle;
+            border-radius: 4px;
+            max-width: 100%;
+            line-height: 22px;
+            cursor: text;
+        }
+        .bootstrap-tagsinput input {
+            border: none;
+            box-shadow: none;
+            outline: none;
+            background-color: transparent;
+            padding: 0 6px;
+            margin: 0;
+            width: auto;
+            max-width: inherit;
+        }
+        .bootstrap-tagsinput .tag {
+            background: gray;
+            border: 1px solid;
+            padding: 0 6px;
+            margin-right: 2px;
+            color: white;
+            border-radius: 4px;
+            }
+    </style>
+    
+
+{% endblock %}
+
+{% block page_content %}
+
+    <div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <!-- Looper -->
+                <div class="card" id="looper">
+                    <div class="card-header">
+                        <strong class="card-title">Catalogue Section</strong>
+                    </div>
+                    <div class="card-body"> 
+                        {% if catalogue != None %}   
+
+                        <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            {% csrf_token %}
+
+                            <h3>[ Edit Catalogue Info ] </h3> <br><br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="index" class=" form-control-label">Index * : </label>
+                                </div>
+                                <div class="col col-md-3">
+                                    <input type="text" id="index" name="index" placeholder="Index" class="form-control" value="{{catalogue.index}}" required>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="name" class=" form-control-label">Catalogue Name * : </label>
+                                </div>
+                                <div class="col col-md-5">
+                                    <input type="text" id="name" name="name" placeholder="Add Catalogue Name" class="form-control" value="{{catalogue.name}}" required>
+                                    <br>
+                                </div>
+                            </div>
+
+                            <br>            
+                            
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="name_id" class=" form-control-label">Catalogue Name ( Unique ) * : </label>
+                                </div>
+                                <div class="col col-md-5">
+                                    <input type="text" id="name_id" name="name_id" placeholder="Add Catalogue Name (should be unique)" class="form-control" value="{{catalogue.name_id}}" required>
+                                    <br>
+                                    <p>** Small case without any spaces, if multiple word then consider using an Underscore/Hyphen (should be unique) ** </p>
+                                </div>
+                            </div>
+
+                            <br>    
+                            
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="page_first" class=" form-control-label">Front Page Number * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="page_first" name="page_first" placeholder="Add First Page Number" class="form-control" value="{{catalogue.page_first}}" required>
+                                </div>
+                            </div>
+
+                            <br>  
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="main_image_1" class=" form-control-label">Catalogue Front Page : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="main_image_1" name="main_image_1" class="form-control-file">
+                                    {% if catalogue.main_image_1 %}
+                                    <p><b>Selected : </b>{{catalogue.main_image_1.url}}</p>
+                                    <img src="{{catalogue.main_image_1.url}}" alt="Catalogue Front Page" style="width: 70px;">
+                                    {% else %}
+                                    <p><b>Selected : </b>None</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <br>          
+                            br                  
+                            
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="page_second" class=" form-control-label">Last Page Number * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="page_second" name="page_second" placeholder="Add First Page Number" class="form-control" value="{{catalogue.page_second}}" required>
+                                </div>
+                            </div>
+
+                            <br>  
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="main_image_2" class=" form-control-label">Catalogue Back Page : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="file" id="main_image_2" name="main_image_2" class="form-control-file">
+                                    {% if catalogue.main_image_2 %}
+                                    <p><b>Selected : </b>{{catalogue.main_image_2.url}}</p>
+                                    <img src="{{catalogue.main_image_2.url}}" alt="Catalogue Back Page" style="width: 70px;">
+                                    {% else %}
+                                    <p><b>Selected : </b>None</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="page_height" class=" form-control-label">Page Height * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="page_height" name="page_height" placeholder="Add Page Height" class="form-control" value="{{catalogue.page_height}}" required>
+                                    <br>
+                                    <p>** Only Numerical, no special characters or alphabetical. ** </p>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="page_width" class=" form-control-label">Page Width * : </label>
+                                </div>
+                                <div class="col col-md-4">
+                                    <input type="text" id="page_width" name="page_width" placeholder="Add Page Width" class="form-control" value="{{catalogue.page_width}}" required>
+                                    <br>
+                                    <p>** Only Numerical, no special characters or alphabetical. ** </p>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="meta_title" class=" form-control-label">Meta Title : </label>
+                                </div>
+                                <div class="col col-md-5">
+                                    <input type="text" id="meta_title" name="meta_title" placeholder="Add Meta Title" class="form-control" value="{{catalogue.meta_title}}">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-12 col-md-2">
+                                    <label for="meta_description" class=" form-control-label">Meta Description : </label>
+                                </div> 
+                                <div class="col col-md-5">
+                                    <textarea id="meta_description" name="meta_description" rows="3" placeholder="Add Meta Description" class="form-control">{{catalogue.meta_description}}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-1"></div>
+                                <div class="col col-md-2">
+                                    <button type="submit" class="btn btn-primary">Update &nbsp; <i class="fa fa-pencil"></i></button>
+                                </div>
+                            </div>
+
+                        </form>
+
+                        {% endif %}
+
+                    </div>
+                </div>
+                
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footerblock %}
+
+<script src="{% static 'back/vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'back/vendors/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'back/assets/js/init-scripts/data-table/datatables-init.js' %}"></script>
+
+<!-- for tags -->
+<script src="{% static 'back/assets/js/bootstrap-tagsinput.js' %}"></script>
+
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'back/vendors/mdb/mdb.min.js' %}"></script>
+
+<script>
+    $('.gallery1').EZView();
+    $('.gallery2').EZView();
+</script>
+
+{% endblock %}

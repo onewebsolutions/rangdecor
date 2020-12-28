@@ -1,0 +1,123 @@
+{% extends 'master_back.html' %}
+
+{% load static %}
+
+{% block page_content %}
+
+<div class="animated fadeIn">
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <!-- <div class="text-center" style="margin-bottom: 20px;">
+                <a href="#looper"><button class="btn peach-gradient">Loopers</button></a>
+                <a href="#informative"><button class="btn aqua-gradient">Informatives</button></a>
+            </div> -->
+
+            <!-- Sheet Edit -->
+            <div class="card" id="looper">
+                <div class="card-header">
+                    <strong class="card-title">Catalogue-Page Edit Page</strong>
+                </div>
+                <div class="card-body">
+
+                    {% if catalogue_page and catalogue %}
+                    <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        {% csrf_token %}
+
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="index" class=" form-control-label">Index * : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="text" id="index" name="index" placeholder="Add Index" class="form-control" value="{{catalogue_page.index}}" required>
+                            </div>
+                        </div>
+                        
+                        <br>
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="page_first" class=" form-control-label">First Page Number * : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="text" id="page_first" name="page_first" placeholder="Add First Page Number" class="form-control" value="{{catalogue_page.page_first}}" required>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="main_image_1" class=" form-control-label">First Image * : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="file" id="main_image_1" name="main_image_1" class="form-control-file">
+                                {% if catalogue_page.main_image_1 %}
+                                    <p><b>Selected : </b>{{catalogue_page.main_image_1.url}}</p>
+                                    <a href="{% if catalogue_page.main_image_1 %} {{catalogue_page.main_image_1.url}} {% endif %}" target="_blank">
+                                        <img src="{% if catalogue_page.main_image_1 %} {{catalogue_page.main_image_1.url}} {% endif %}" alt="" style="height: 70px;">
+                                    </a>
+                                {% else %}
+                                    <p><b>Selected : </b>None</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <br>
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="page_second" class=" form-control-label">Second Page Number * : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="text" id="page_second" name="page_second" placeholder="Add Second Page Number" class="form-control" value="{{catalogue_page.page_second}}" required>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="main_image_2" class=" form-control-label">Second Image * : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="file" id="main_image_2" name="main_image_2" class="form-control-file">
+                                {% if catalogue_page.main_image_2 %}
+                                    <p><b>Selected : </b>{{catalogue_page.main_image_2.url}}</p>
+                                    <a href="{% if catalogue_page.main_image_2 %} {{catalogue_page.main_image_2.url}} {% endif %}" target="_blank">
+                                        <img src="{% if catalogue_page.main_image_2 %} {{catalogue_page.main_image_2.url}} {% endif %}" alt="" style="height: 70px;">
+                                    </a>
+                                {% else %}
+                                    <p><b>Selected : </b>None</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <br>
+                        <p>All * marked fields implies that it is required and can not be left empty</p>
+
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col col-md-2">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-pencil"></i> Update</button>
+                            </div>
+                        </div>
+
+                    </form>
+                    {% endif %}
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock %}

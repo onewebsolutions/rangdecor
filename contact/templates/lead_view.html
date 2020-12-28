@@ -1,0 +1,103 @@
+{% extends 'master_back.html' %}
+
+{% load static %}
+
+
+{% block headblock %}
+
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'back/vendors/mdb/mdb.min.css' %}" rel="stylesheet">
+
+
+{% endblock %}
+
+{% block page_content %}
+
+
+<div class="animated fadeIn">
+    <div class="row">
+
+        <div class="col-md-12">
+            <!-- Looper Component -->
+            <div class="card" id="looper">
+                <div class="card-header">
+                    <strong class="card-title">Lead Details : </strong>
+                </div>
+                <div class="card-body">
+                    {% if lead %}
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="name" class=" form-control-label">Name : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="text" id="name" name="name" placeholder="Name" class="form-control" value="{{lead.name}}" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="email" class=" form-control-label">email : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="text" id="email" name="email" placeholder="email" class="form-control" value="{{lead.email}}">
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="phone" class=" form-control-label">Phone : </label>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="text" id="phone" name="phone" placeholder="Phone" class="form-control" value="{{lead.phone}}">
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-12 col-md-2">
+                                <label for="detail" class=" form-control-label">Details : </label>
+                            </div>
+                            <div class="col col-md-7">
+                                <textarea name="detail" id="detail" cols="30" rows="5"  class="form-control" placeholder="Details">{{lead.message}}</textarea>
+                            </div>
+                        </div>
+
+                        <br>
+                        <br>
+
+                        <div class="row form-group">
+                            <div class="col col-md-2">
+                            </div>
+                            <div class="col col-md-2">
+                                <a href="{% url 'lead_revert' lead.pk %}"><button type="button" class="btn btn-warning btn-sm">Revert Back <i class="fa fa-external-link"></i></button></a>
+                            </div>
+                            <div class="col col-md-2">
+                                <a href="{% url 'lead_delete' lead.pk %}"><button type="button" class="btn btn-danger btn-sm">Remove From List <i class="fa fa-times"></i></button></a>
+                            </div>
+                            <div class="col col-md-2">
+                                <a href="{% url 'contact_back' %}"><button type="button" class="btn btn-dark btn-sm">&nbsp;<i class="fa fa-caret-left"></i> &nbsp; Previous Page</button></a>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block footerblock %}
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'back/vendors/mdb/mdb.min.js' %}"></script>
+
+{% endblock %}
+
+
