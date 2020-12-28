@@ -14,6 +14,10 @@ from ipware import get_client_ip
 
 def panel(request) :
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     return render(request, 'panel.html')
 
 
@@ -22,6 +26,10 @@ def panel(request) :
 ############################ Page Handler #######################
 
 def page_handler(request) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST' :
 
@@ -54,6 +62,10 @@ def page_handler(request) :
 
 
 def page_handler_edit(request, page_name_w) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST' :
 
@@ -97,6 +109,10 @@ def page_handler_edit(request, page_name_w) :
 
 def page_delete(request, page_name_w) :
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     obj = Page_Handler.objects.get(page_name=page_name_w)
     obj.delete()
 
@@ -110,6 +126,10 @@ def page_delete(request, page_name_w) :
 
 
 def looper_section(request) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     page = Page_Handler.objects.all()
     looper_section = Looper_Section.objects.all()
@@ -125,6 +145,10 @@ def looper_section(request) :
 
 
 def looper_section_add(request) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST' :
 
@@ -162,6 +186,10 @@ def looper_section_add(request) :
 
 def looper_section_delete(request, loop_sec_pk) :
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     try:
         looper_section = Looper_Section.objects.get(pk=loop_sec_pk)
     except Looper_Section.DoesNotExist:
@@ -183,6 +211,10 @@ def looper_section_delete(request, loop_sec_pk) :
 
 
 def looper_section_edit(request, loop_sec_pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST' :
 
@@ -254,6 +286,10 @@ def looper_section_edit(request, loop_sec_pk) :
 
 def looper_component(request, loop_sec_name_w) :
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     try:
         looper_section = Looper_Section.objects.get(name=loop_sec_name_w)
     except Looper_Section.DoesNotExist:
@@ -275,6 +311,10 @@ def looper_component(request, loop_sec_name_w) :
 
 
 def looper_component_add(request, loop_sec_name_w) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST' :
 
@@ -330,6 +370,10 @@ def looper_component_add(request, loop_sec_name_w) :
 
 
 def looper_component_edit(request, loop_sec_name_w, loop_comp_pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST' :
 
@@ -418,6 +462,10 @@ def looper_component_edit(request, loop_sec_name_w, loop_comp_pk) :
 
 def looper_component_delete(request, loop_sec_name_w, loop_comp_pk) :
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     try:
         looper_component = Looper_Component.objects.get(pk=loop_comp_pk)
         looper_component.delete()
@@ -436,6 +484,10 @@ def looper_component_delete(request, loop_sec_name_w, loop_comp_pk) :
 
 
 def remove_image_looper_component(request, loop_comp_pk, img_path, img_name) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if img_name == "main_image" :
 
@@ -511,6 +563,10 @@ def remove_image_looper_component(request, loop_comp_pk, img_path, img_name) :
 
 def informative_section(request) :
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     informative = Informative_Section.objects.all()
 
     page =  Page_Handler.objects.all()
@@ -523,6 +579,10 @@ def informative_section(request) :
 
 
 def informative_section_add(request) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST' :
 
@@ -566,6 +626,10 @@ def informative_section_add(request) :
 
 
 def informative_section_edit(request, pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST' :
 
@@ -649,6 +713,10 @@ def informative_section_edit(request, pk) :
 
 def remove_image(request, img_name, img_path, pk) :
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     if img_name == "main_image" :
 
         informative = Informative_Section.objects.get(pk=pk)
@@ -708,6 +776,10 @@ def remove_image(request, img_name, img_path, pk) :
 
 
 def informative_section_delete(request, pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     try:
         informative = Informative_Section.objects.get(pk=pk)

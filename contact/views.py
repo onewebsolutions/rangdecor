@@ -12,6 +12,10 @@ from django.contrib import messages
 
 def contact_back(request):
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     contact = Contact_Us.objects.all()
 
     lead = Lead.objects.all().order_by('-pk')
@@ -25,6 +29,10 @@ def contact_back(request):
 
 
 def contact_add(request):
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST':
 
@@ -51,6 +59,10 @@ def contact_add(request):
 
 
 def contact_edit(request, contact_pk):
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST':
 
@@ -128,6 +140,10 @@ def lead(request) :
 
 def lead_view(request, lead_pk) :
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     try:
         lead = Lead.objects.get(pk=lead_pk)
     except Lead.DoesNotExist:
@@ -145,6 +161,10 @@ def lead_view(request, lead_pk) :
 
 
 def lead_revert(request, lead_pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST' :
 
@@ -195,6 +215,10 @@ def lead_revert(request, lead_pk) :
 
 
 def lead_delete(request, lead_pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     try:
         lead = Lead.objects.get(pk=lead_pk)

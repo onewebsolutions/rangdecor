@@ -13,6 +13,10 @@ from django.contrib import messages
 
 def product_back(request) :
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     product = Product.objects.all()
 
     return render(request, 'product_back.html', {
@@ -22,6 +26,10 @@ def product_back(request) :
 
 
 def product_add(request) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
 
     if request.method == 'POST' :
@@ -66,6 +74,10 @@ def product_add(request) :
 
 
 def product_edit(request, product_pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
 
     if request.method == 'POST' :
@@ -136,6 +148,10 @@ def product_edit(request, product_pk) :
 
 def product_delete(request, product_pk) :
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     try:
         product = Product.objects.get(pk=product_pk)
     except Product.DoesNotExist:
@@ -159,6 +175,10 @@ def product_delete(request, product_pk) :
 
 
 def remove_image(request, product_pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
 
     try:
@@ -186,6 +206,10 @@ def remove_image(request, product_pk) :
 
 def sheet_back(request, product_pk) : 
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
 
     try:
         product = Product.objects.get(pk=product_pk)
@@ -210,6 +234,10 @@ def sheet_back(request, product_pk) :
 
 
 def sheet_add(request, product_pk) : 
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
 
     try:
@@ -250,6 +278,10 @@ def sheet_add(request, product_pk) :
 
     
 def sheet_edit(request, product_pk, sheet_pk) : 
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
 
     if request.method == 'POST' :
@@ -329,6 +361,10 @@ def sheet_edit(request, product_pk, sheet_pk) :
 
 
 def sheet_delete(request, product_pk, sheet_pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
 
 

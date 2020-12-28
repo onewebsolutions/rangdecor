@@ -51,6 +51,10 @@ def vsg(request, vsg_area) :
 
 def vsg_back(request) :
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     if request.method == 'POST' :
 
         index = request.POST.get('index', '')
@@ -108,6 +112,10 @@ def vsg_back(request) :
 
 
 def vsg_back_edit(request, vsg_pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST' :
 
@@ -190,6 +198,10 @@ def vsg_back_edit(request, vsg_pk) :
 
 
 def vsg_back_delete(request, vsg_pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     try :
         vsg = VSG.objects.get(pk=vsg_pk)

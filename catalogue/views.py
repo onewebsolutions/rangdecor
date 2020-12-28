@@ -10,6 +10,10 @@ from django.core.files.storage import default_storage
 
 def catalogue_back(request) :
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     if request.method == "POST" :
 
         index = request.POST.get('index', '')
@@ -59,6 +63,10 @@ def catalogue_back(request) :
 
 
 def catalogue_back_edit(request, cata_pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST' :
 
@@ -136,6 +144,10 @@ def catalogue_back_edit(request, cata_pk) :
 
 def catalogue_back_page(request, cata_pk) :
 
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
+
     if request.method == "POST" :
 
         try:
@@ -196,6 +208,10 @@ def catalogue_back_page(request, cata_pk) :
 
 
 def catalogue_back_page_edit(request, cata_pk, page_pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     if request.method == 'POST' :
 
@@ -267,6 +283,10 @@ def catalogue_back_page_edit(request, cata_pk, page_pk) :
 
 
 def catalogue_back_page_delete(request, cata_pk, page_pk) :
+
+    # Controlling User Access to Control Panel
+    if not request.user.is_authenticated :
+        return redirect('mylogin')
 
     try:
         catalogue_page = Catalogue_Page.objects.get(pk=page_pk)
