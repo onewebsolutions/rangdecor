@@ -399,7 +399,7 @@ def search(request) :
         vsg = VSG.objects.all()
 
         a = Sheet.objects.filter(name__contains=search)
-        b = Sheet.objects.filter(number__contains=search)
+        b = Sheet.objects.filter(number__contains=search) 
 
         sheets = list(chain(a,b))
         sheets = list(dict.fromkeys(sheets))

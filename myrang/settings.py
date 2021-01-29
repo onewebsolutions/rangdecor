@@ -15,7 +15,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.rangdecor.in', 'rangdecor.in', 'http://rangdecor.in', 'https://rangdecor.in', 'localhost']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
